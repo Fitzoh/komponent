@@ -1,0 +1,20 @@
+{
+  "name": "Komponent",
+  "authors": [
+    "Jordan Demeulenaere <jd@taktik.be>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "paper-input": "PolymerElements/paper-input#^2.0.2"
+  }
+}
