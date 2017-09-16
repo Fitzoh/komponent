@@ -3,6 +3,8 @@ package komponent
 import komponent.core.div
 import komponent.core.h1
 import komponent.core.p
+import komponent.event.Notification
+import komponent.polymer.Polymer
 import komponent.polymer.behavior.selected
 import komponent.polymer.element.appDrawerLayout
 import komponent.polymer.element.appHeaderLayout
@@ -13,8 +15,10 @@ import komponent.polymer.element.header
 import komponent.polymer.element.ironPages
 import komponent.polymer.element.ironSelector
 import komponent.polymer.element.mainTitle
+import komponent.polymer.element.paperButton
 import komponent.polymer.element.paperIconButton
 import komponent.property.MutableProperty
+import komponent.property.Prop
 import komponent.property.bind
 import org.w3c.dom.HTMLDivElement
 import org.w3c.dom.HTMLElement
@@ -22,8 +26,9 @@ import kotlin.browser.document
 import kotlin.dom.addClass
 
 fun main(args: Array<String>) {
-	var selectedTab: MutableProperty<String?>? = null
+	Polymer.install()
 
+	var selectedTab: MutableProperty<String?>? = null
 	document.body!!.div {
 		appDrawerLayout {
 			drawer {
@@ -39,7 +44,7 @@ fun main(args: Array<String>) {
 			appHeaderLayout {
 				header {
 					appToolbar {
-						this@appDrawerLayout.drawerToggle(paperIconButton("komponent:menu"))
+						this@appDrawerLayout.drawerToggle(paperIconButton { icon = "komponent:menu"})
 						mainTitle(div { textContent = "My App" })
 					}
 				}
@@ -58,10 +63,20 @@ fun main(args: Array<String>) {
 }
 
 private fun HTMLElement.createCard(title: String, number: Int) {
+	val count = Prop(1)
+
 	div {
 		addClass("card")
 		div { addClass("circle"); textContent = number.toString() }
 		h1 { textContent = title }
+		paperButton {
+			raised = true
+			count.subscribe { this.textContent = "Show notification $it" }
+			addEventListener("click", {
+				Notification("This is the notification ${count.get()} of view $number").send()
+				count.set(count.get() + 1)
+			})
+		}
 		p { textContent = "Ut labores minimum atomorum pro. Laudem tibique ut has." }
 		p {
 			textContent = """
