@@ -7,8 +7,6 @@ import org.w3c.dom.HTMLInputElement
 import org.w3c.dom.HTMLLabelElement
 import org.w3c.dom.HTMLSpanElement
 import kotlin.browser.document
-import kotlin.dom.addClass
-import kotlin.dom.removeClass
 
 fun <T : HTMLElement> createElement(name: String,
 									parent: HTMLElement? = null,
@@ -20,18 +18,24 @@ fun <T : HTMLElement> createElement(name: String,
 }
 
 fun HTMLElement.insert(vararg elements: HTMLElement) = elements.forEach { this.insertBefore(it, null) }
-fun HTMLElement.insert(vararg elements: Element) = elements.forEach { this.insertBefore(it.asHtmlElement(), null) }
-
 fun HTMLElement.div(init: (HTMLDivElement.() -> Unit)) = createElement("div", this, init)
 fun HTMLElement.span(init: (HTMLSpanElement.() -> Unit)) = createElement("span", this, init)
 fun HTMLElement.button(init: (HTMLButtonElement.() -> Unit)) = createElement("button", this, init)
 fun HTMLElement.input(init: (HTMLInputElement.() -> Unit)) = createElement("input", this, init)
 fun HTMLElement.label(init: (HTMLLabelElement.() -> Unit)) = createElement("label", this, init)
 
-fun HTMLElement.addClassOnCondition(className: String, condition: Boolean) {
-	if (condition) {
-		addClass(className)
-	} else {
-		removeClass(className)
+fun <T> HTMLElement.lazy(name: String, supplier: () -> T): T {
+	val dyn: dynamic = this
+	if (dyn.__lazy__ == null) {
+		dyn.__lazy__ = hashMapOf<String, Any>()
 	}
+
+	var value: T? = dyn.__lazy__[name] as T?
+	if (value != null) {
+		return value
+	}
+
+	value = supplier()
+	dyn.__lazy__[name] = value
+	return value
 }

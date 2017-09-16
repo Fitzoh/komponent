@@ -1,27 +1,19 @@
 package komponent.polymer
 
+import komponent.core.HtmlTagMarker
 import komponent.core.Subscription
+import komponent.core.lazy
 import komponent.property.MutableProperty
 import komponent.property.Property
-import kotlin.reflect.KProperty
+import org.w3c.dom.HTMLElement
 
-open class PolymerValue<out T>(protected val delegate: dynamic,
-							   protected val property: String) {
+@HtmlTagMarker
+external abstract class PolymerElement : HTMLElement
 
-	operator fun getValue(receiver: Any, ignored: KProperty<*>): T = delegate[property] as T
+internal fun <T> PolymerElement.property(name: String): Property<T> = lazy(name) { PolymerProperty(this, name) }
+internal fun <T> PolymerElement.mutableProperty(name: String): MutableProperty<T> = lazy(name) { PolymerMutableProperty(this, name) }
 
-}
-
-open class PolymerVariable<T>(delegate: dynamic,
-							  property: String) : PolymerValue<T>(delegate, property) {
-
-	operator fun setValue(receiver: Any, ignored: KProperty<*>, newValue: T) {
-		delegate[property] = newValue
-	}
-
-}
-
-open class PolymerProperty<out T>(private val delegate: dynamic,
+private open class PolymerProperty<out T>(private val delegate: dynamic,
 								  private val property: String) : Property<T> {
 
 	private val listeners = LinkedHashSet<(T) -> Unit>()
@@ -46,7 +38,7 @@ open class PolymerProperty<out T>(private val delegate: dynamic,
 
 }
 
-class PolymerMutableProperty<T>(private val delegate: dynamic,
+private class PolymerMutableProperty<T>(private val delegate: dynamic,
 								private val property: String) : MutableProperty<T>, PolymerProperty<T>(delegate, property) {
 
 	override fun set(newValue: T) {
