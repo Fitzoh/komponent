@@ -21,6 +21,6 @@ external abstract class AppDrawerElement : PolymerElement {
 
 }
 
-fun HTMLElement.appDrawer(init: (AppDrawerElement.() -> Unit)? = null) = createElement("app-drawer", this, init)
+val AppDrawerElement.opened get() = mutableProperty<Boolean>("opened")
 
-fun AppDrawerElement.opened() = mutableProperty<Boolean>("opened")
+fun HTMLElement.appDrawer(init: (AppDrawerElement.() -> Unit)? = null) = createElement("app-drawer", this, init)

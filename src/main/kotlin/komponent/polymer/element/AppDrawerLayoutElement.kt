@@ -14,13 +14,15 @@ external abstract class AppDrawerLayoutElement : PolymerElement {
 
 }
 
-fun HTMLElement.appDrawerLayout(init: (AppDrawerLayoutElement.() -> Unit)? = null) = createElement("app-drawer-layout", this, init)
-
+val AppDrawerLayoutElement.narrow get() = property<Boolean>("narrow")
+val AppDrawerLayoutElement.drawer get() = drawer()
 fun AppDrawerLayoutElement.drawer(init: (AppDrawerElement.() -> Unit)? = null): AppDrawerElement = lazy("drawer") { appDrawer() }.also {
 	it.setAttribute("slot", "drawer")
 	init?.invoke(it)
 }
+var AppDrawerLayoutElement.drawerToggle: HTMLElement
+	get() = throw UnsupportedOperationException()
+	set(element) = element.setAttribute("drawer-toggle", "true")
 
-fun AppDrawerLayoutElement.drawerToggle(element: HTMLElement) = element.setAttribute("drawer-toggle", "true")
+fun HTMLElement.appDrawerLayout(init: (AppDrawerLayoutElement.() -> Unit)? = null) = createElement("app-drawer-layout", this, init)
 
-fun AppDrawerLayoutElement.narrow() = property<Boolean>("narrow")

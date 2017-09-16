@@ -38,14 +38,14 @@ fun main(args: Array<String>) {
 					div { textContent = "View One" }
 					div { textContent = "View Two" }
 					div { textContent = "View Three" }
-				}.let { selectedTab = it.selected() }
+				}.let { selectedTab = it.selected }
 			}
 
 			appHeaderLayout {
 				header {
 					appToolbar {
-						this@appDrawerLayout.drawerToggle(paperIconButton { icon = "komponent:menu"})
-						mainTitle(div { textContent = "My App" })
+						this@appDrawerLayout.drawerToggle = paperIconButton { icon = "komponent:menu"}
+						mainTitle = div { textContent = "My App" }
 					}
 				}
 
@@ -53,7 +53,7 @@ fun main(args: Array<String>) {
 					createCard("View One", 1)
 					createCard("View Two", 2)
 					createCard("View Three", 3)
-				}.let { selectedTab!!.bind(it.selected()) }
+				}.let { selectedTab!!.bind(it.selected) }
 			}
 		}
 	}

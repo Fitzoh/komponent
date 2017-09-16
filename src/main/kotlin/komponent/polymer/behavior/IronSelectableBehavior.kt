@@ -32,6 +32,6 @@ external interface IronSelectableBehavior<T> {
 
 }
 
-fun <T> IronSelectableBehavior<T>.items() = asPolymerElement().property<List<T>>("items")
-fun <T> IronSelectableBehavior<T>.selected() = asPolymerElement().mutableProperty<Any?>("selected").map({ it?.toString() }, { it })
-fun <T> IronSelectableBehavior<T>.selectedItem() = asPolymerElement().property<T?>("selectedItem")
+val <T> IronSelectableBehavior<T>.items get() = asPolymerElement().property<List<T>>("items")
+val <T> IronSelectableBehavior<T>.selected get() = asPolymerElement().mutableProperty<Any?>("selected").map({ it?.toString() }, { it })
+val <T> IronSelectableBehavior<T>.selectedItem get() = asPolymerElement().property<T?>("selectedItem")

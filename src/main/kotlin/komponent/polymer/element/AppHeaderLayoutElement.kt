@@ -11,9 +11,11 @@ abstract external class AppHeaderLayoutElement : PolymerElement, AppLayoutBehavi
 
 }
 
-fun HTMLElement.appHeaderLayout(init: (AppHeaderLayoutElement.() -> Unit)? = null) = createElement("app-header-layout", this, init)
-
+val AppHeaderLayoutElement.header get() = header()
 fun AppHeaderLayoutElement.header(init: (AppHeaderElement.() -> Unit)? = null): AppHeaderElement = lazy("drawer") { appHeader() }.also {
 	it.setAttribute("slot", "header")
 	init?.invoke(it)
 }
+
+fun HTMLElement.appHeaderLayout(init: (AppHeaderLayoutElement.() -> Unit)? = null) = createElement("app-header-layout", this, init)
+
