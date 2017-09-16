@@ -11,7 +11,6 @@ class Prop<T>(initialValue: T) : MutableProperty<T> {
 
 	override fun subscribe(listener: (T) -> Unit): Subscription {
 		listeners.add(listener)
-		listener(value)
 		return object : Subscription {
 			override fun cancel() {
 				listeners.remove(listener)

@@ -1,10 +1,10 @@
 package komponent.core
 
-import org.w3c.dom.HTMLButtonElement
+import org.w3c.dom.HTMLAnchorElement
 import org.w3c.dom.HTMLDivElement
 import org.w3c.dom.HTMLElement
-import org.w3c.dom.HTMLInputElement
-import org.w3c.dom.HTMLLabelElement
+import org.w3c.dom.HTMLHeadElement
+import org.w3c.dom.HTMLParagraphElement
 import org.w3c.dom.HTMLSpanElement
 import kotlin.browser.document
 
@@ -18,11 +18,17 @@ fun <T : HTMLElement> createElement(name: String,
 }
 
 fun HTMLElement.insert(vararg elements: HTMLElement) = elements.forEach { this.insertBefore(it, null) }
+
 fun HTMLElement.div(init: (HTMLDivElement.() -> Unit)) = createElement("div", this, init)
 fun HTMLElement.span(init: (HTMLSpanElement.() -> Unit)) = createElement("span", this, init)
-fun HTMLElement.button(init: (HTMLButtonElement.() -> Unit)) = createElement("button", this, init)
-fun HTMLElement.input(init: (HTMLInputElement.() -> Unit)) = createElement("input", this, init)
-fun HTMLElement.label(init: (HTMLLabelElement.() -> Unit)) = createElement("label", this, init)
+fun HTMLElement.a(init: (HTMLAnchorElement.() -> Unit)) = createElement("a", this, init)
+fun HTMLElement.p(init: (HTMLParagraphElement.() -> Unit)) = createElement("p", this, init)
+fun HTMLElement.h1(init: (HTMLHeadElement.() -> Unit)) = createElement("h1", this, init)
+fun HTMLElement.h2(init: (HTMLHeadElement.() -> Unit)) = createElement("h2", this, init)
+fun HTMLElement.h3(init: (HTMLHeadElement.() -> Unit)) = createElement("h3", this, init)
+fun HTMLElement.h4(init: (HTMLHeadElement.() -> Unit)) = createElement("h4", this, init)
+fun HTMLElement.h5(init: (HTMLHeadElement.() -> Unit)) = createElement("h5", this, init)
+fun HTMLElement.h6(init: (HTMLHeadElement.() -> Unit)) = createElement("h6", this, init)
 
 fun <T> HTMLElement.lazy(name: String, supplier: () -> T): T {
 	val dyn: dynamic = this

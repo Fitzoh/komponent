@@ -9,12 +9,18 @@
 
 	<script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
 
+	<link rel="import" href="icons.html">
+
 	<!-- Elements -->
 	<!-- TODO import on the fly -->
 	<link rel="import" href="bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
 	<link rel="import" href="bower_components/app-layout/app-drawer/app-drawer.html">
+	<link rel="import" href="bower_components/app-layout/app-header-layout/app-header-layout.html">
+	<link rel="import" href="bower_components/app-layout/app-header/app-header.html">
 	<link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
+	<link rel="import" href="bower_components/iron-pages/iron-pages.html">
 	<link rel="import" href="bower_components/iron-selector/iron-selector.html">
+	<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
 	<link rel="import" href="bower_components/paper-input/paper-input.html">
 
 	<style>
@@ -24,10 +30,66 @@
 			line-height: 1.5;
 			min-height: 100vh;
 			background-color: #eeeeee;
+
+			--app-primary-color: #4285f4;
+			--app-secondary-color: black;
 		}
 
-		.iron-selected {
+		app-drawer-layout:not([narrow]) [drawer-toggle] {
+			visibility: hidden;
+		}
+
+		app-header {
+			color: #fff;
+			background-color: var(--app-primary-color);
+		}
+
+		app-header paper-icon-button {
+			--paper-icon-button-ink-color: white;
+		}
+
+		.drawer-list {
+			margin: 0 20px;
+		}
+
+		.drawer-list div {
+			display: block;
+			padding: 0 16px;
+			text-decoration: none;
+			color: var(--app-secondary-color);
+			line-height: 40px;
+			cursor: pointer;
+		}
+
+		.drawer-list div.iron-selected {
+			color: black;
 			font-weight: bold;
+		}
+
+		.card {
+			margin: 34px;
+			padding: 16px;
+			color: #757575;
+			background-color: #fff;
+			box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+		}
+
+		.circle {
+			display: inline-block;
+			width: 64px;
+			height: 64px;
+			text-align: center;
+			color: #555;
+			border-radius: 50%;
+			background: #ddd;
+			font-size: 30px;
+			line-height: 64px;
+		}
+
+		h1 {
+			margin: 16px 0;
+			color: #212121;
+			font-size: 22px;
 		}
 	</style>
 </head>

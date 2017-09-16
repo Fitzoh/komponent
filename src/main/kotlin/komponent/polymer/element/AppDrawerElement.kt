@@ -1,4 +1,4 @@
-package komponent.polymer
+package komponent.polymer.element
 
 import komponent.core.createElement
 import org.w3c.dom.HTMLElement

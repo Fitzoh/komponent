@@ -1,29 +1,74 @@
 package komponent
 
 import komponent.core.div
-import komponent.polymer.appDrawerLayout
-import komponent.polymer.drawer
-import komponent.polymer.ironSelector
-import komponent.polymer.toolbar
+import komponent.core.h1
+import komponent.core.p
+import komponent.polymer.behavior.selected
+import komponent.polymer.element.appDrawerLayout
+import komponent.polymer.element.appHeaderLayout
+import komponent.polymer.element.appToolbar
+import komponent.polymer.element.drawer
+import komponent.polymer.element.drawerToggle
+import komponent.polymer.element.header
+import komponent.polymer.element.ironPages
+import komponent.polymer.element.ironSelector
+import komponent.polymer.element.mainTitle
+import komponent.polymer.element.paperIconButton
+import komponent.property.MutableProperty
+import komponent.property.bind
 import org.w3c.dom.HTMLDivElement
+import org.w3c.dom.HTMLElement
 import kotlin.browser.document
+import kotlin.dom.addClass
 
 fun main(args: Array<String>) {
+	var selectedTab: MutableProperty<String?>? = null
+
 	document.body!!.div {
 		appDrawerLayout {
 			drawer {
-				toolbar {
-					div {
-						textContent = "Menu"
+				appToolbar { textContent = "Menu" }
+				ironSelector<HTMLDivElement> {
+					addClass("drawer-list")
+					div { textContent = "View One" }
+					div { textContent = "View Two" }
+					div { textContent = "View Three" }
+				}.let { selectedTab = it.selected() }
+			}
+
+			appHeaderLayout {
+				header {
+					appToolbar {
+						this@appDrawerLayout.drawerToggle(paperIconButton("komponent:menu"))
+						mainTitle(div { textContent = "My App" })
 					}
 				}
-				div { textContent = "hello world" }
-				ironSelector<HTMLDivElement> {
-					div { textContent = "first" }
-					div { textContent = "second" }
-					div { textContent = "third" }
-				}
+
+				ironPages<Any> {
+					createCard("View One", 1)
+					createCard("View Two", 2)
+					createCard("View Three", 3)
+				}.let { selectedTab!!.bind(it.selected()) }
 			}
+		}
+	}
+
+	// Open first tab
+	selectedTab!!.set("0")
+}
+
+private fun HTMLElement.createCard(title: String, number: Int) {
+	div {
+		addClass("card")
+		div { addClass("circle"); textContent = number.toString() }
+		h1 { textContent = title }
+		p { textContent = "Ut labores minimum atomorum pro. Laudem tibique ut has." }
+		p {
+			textContent = """
+							|Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.
+							|Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.
+							|Cu mei vide viris gloriatur, at populo eripuit sit.
+							|""".trimMargin()
 		}
 	}
 }

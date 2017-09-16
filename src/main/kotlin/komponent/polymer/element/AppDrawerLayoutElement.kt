@@ -1,4 +1,4 @@
-package komponent.polymer
+package komponent.polymer.element
 
 import komponent.core.createElement
 import komponent.core.lazy
@@ -20,5 +20,7 @@ fun AppDrawerLayoutElement.drawer(init: (AppDrawerElement.() -> Unit)? = null): 
 	it.setAttribute("slot", "drawer")
 	init?.invoke(it)
 }
+
+fun AppDrawerLayoutElement.drawerToggle(element: HTMLElement) = element.setAttribute("drawer-toggle", "true")
 
 fun AppDrawerLayoutElement.narrow() = property<Boolean>("narrow")

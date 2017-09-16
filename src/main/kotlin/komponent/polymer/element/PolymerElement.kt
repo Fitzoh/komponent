@@ -1,4 +1,4 @@
-package komponent.polymer
+package komponent.polymer.element
 
 import komponent.core.HtmlTagMarker
 import komponent.core.Subscription
@@ -13,8 +13,10 @@ external abstract class PolymerElement : HTMLElement
 internal fun <T> PolymerElement.property(name: String): Property<T> = lazy(name) { PolymerProperty(this, name) }
 internal fun <T> PolymerElement.mutableProperty(name: String): MutableProperty<T> = lazy(name) { PolymerMutableProperty(this, name) }
 
+internal fun Any.asPolymerElement(): PolymerElement = this.asDynamic()
+
 private open class PolymerProperty<out T>(private val delegate: dynamic,
-								  private val property: String) : Property<T> {
+										  private val property: String) : Property<T> {
 
 	private val listeners = LinkedHashSet<(T) -> Unit>()
 
@@ -39,7 +41,7 @@ private open class PolymerProperty<out T>(private val delegate: dynamic,
 }
 
 private class PolymerMutableProperty<T>(private val delegate: dynamic,
-								private val property: String) : MutableProperty<T>, PolymerProperty<T>(delegate, property) {
+										private val property: String) : MutableProperty<T>, PolymerProperty<T>(delegate, property) {
 
 	override fun set(newValue: T) {
 		delegate[property] = newValue
