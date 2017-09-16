@@ -1,20 +1,32 @@
 package komponent.polymer
 
-import komponent.core.DelegatedHTMLElement
+import komponent.core.Element
 import komponent.core.createElement
+import komponent.core.insert
 import komponent.property.MutableProperty
 import org.w3c.dom.HTMLElement
 
-interface PaperInput {
+interface PaperInput : Element {
 
-    val value: MutableProperty<String>
+	var disabled: Boolean
 
-}
+	var label: String?
 
-class PaperInputImpl(private val delegate: dynamic) : PaperInput, DelegatedHTMLElement(delegate) {
-
-    override val value by lazy { PolymerMutableProperty<String>(delegate, "value") }
+	val value: MutableProperty<String?>
 
 }
 
-fun HTMLElement.paperInput(): PaperInput = PaperInputImpl(createElement("paper-input", this))
+fun HTMLElement.textField(init: (PaperInput.() -> Unit)? = null): PaperInput = PaperInputImpl().also { init?.invoke(it); this.insert(it) }
+fun Element.textField(init: (PaperInput.() -> Unit)? = null): PaperInput = PaperInputImpl().also { init?.invoke(it); this.insert(it) }
+
+private class PaperInputImpl : PaperInput {
+
+	private val delegate = createElement<HTMLElement>("paper-input")
+
+	override var disabled by PolymerVariable<Boolean>(delegate, "disabled")
+	override var label by PolymerVariable<String?>(delegate, "label")
+	override val value by lazy { PolymerMutableProperty<String?>(delegate, "value") }
+
+	override fun asHtmlElement(): HTMLElement = delegate
+
+}

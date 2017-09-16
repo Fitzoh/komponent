@@ -2,14 +2,36 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
 	<title>Komponent</title>
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css" />
+	<meta name="description" content="Komponent example">
+
 	<script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+
+	<!-- Elements -->
+	<!-- TODO import on the fly -->
+	<link rel="import" href="bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+	<link rel="import" href="bower_components/app-layout/app-drawer/app-drawer.html">
+	<link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
+	<link rel="import" href="bower_components/iron-selector/iron-selector.html">
 	<link rel="import" href="bower_components/paper-input/paper-input.html">
+
+	<style>
+		body {
+			margin: 0;
+			font-family: 'Roboto', 'Noto', sans-serif;
+			line-height: 1.5;
+			min-height: 100vh;
+			background-color: #eeeeee;
+		}
+
+		.iron-selected {
+			font-weight: bold;
+		}
+	</style>
 </head>
 <body>
-<script type="text/javascript" src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 <script type="text/javascript" src="js/kotlin.js"></script>
 <script type="text/javascript" src="js/komponent_main.js"></script>
 </body>

@@ -20,6 +20,8 @@ fun <T : HTMLElement> createElement(name: String,
 }
 
 fun HTMLElement.insert(vararg elements: HTMLElement) = elements.forEach { this.insertBefore(it, null) }
+fun HTMLElement.insert(vararg elements: Element) = elements.forEach { this.insertBefore(it.asHtmlElement(), null) }
+
 fun HTMLElement.div(init: (HTMLDivElement.() -> Unit)) = createElement("div", this, init)
 fun HTMLElement.span(init: (HTMLSpanElement.() -> Unit)) = createElement("span", this, init)
 fun HTMLElement.button(init: (HTMLButtonElement.() -> Unit)) = createElement("button", this, init)
