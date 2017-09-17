@@ -4,16 +4,15 @@ import org.w3c.dom.Element
 import org.w3c.dom.HTMLDivElement
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.OPEN
+import org.w3c.dom.ShadowRoot
 import org.w3c.dom.ShadowRootMode
 import kotlin.browser.window
 import kotlin.reflect.KClass
 
 abstract class CustomElement : HTMLElement() {
-	companion object {
-		private val parent = createElement<HTMLDivElement>("div")
-	}
 
-	protected fun initShadowRoot(init: HTMLElement.() -> Unit) {
+	protected fun shadowRoot(init: HTMLElement.() -> Unit): ShadowRoot {
+		val parent = createElement<HTMLDivElement>("div")
 		val shadowRoot = attachShadow(ShadowRootInit(ShadowRootMode.OPEN))
 		parent.init()
 		var child = parent.firstChild
@@ -22,6 +21,7 @@ abstract class CustomElement : HTMLElement() {
 			shadowRoot.appendChild(child)
 			child = parent.firstChild
 		}
+		return shadowRoot
 	}
 
 	private class ShadowRootInit(override var mode: ShadowRootMode?) : org.w3c.dom.ShadowRootInit

@@ -16,13 +16,11 @@ abstract class NotifiableCounter : CustomElement() {
 		fun define() = defineElement("notifiable-counter", NotifiableCounter::class)
 	}
 
-	private val mutableCount: MutableProperty<Int>
-	val count: Property<Int>
+	private val mutableCount: MutableProperty<Int> = Prop(1)
+	val count: Property<Int> = mutableCount.immutable()
 
 	init {
-		mutableCount = Prop(1)
-		count = mutableCount.immutable()
-		initShadowRoot {
+		shadowRoot {
 			paperButton {
 				raised = true
 
@@ -36,10 +34,6 @@ abstract class NotifiableCounter : CustomElement() {
 				})
 			}
 		}
-	}
-
-	fun connectedCallback() {
-		println("counter connected")
 	}
 
 }
