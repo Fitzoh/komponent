@@ -2,24 +2,26 @@ group 'komponent'
 version '1.0.0-SNAPSHOT'
 
 buildscript {
-	ext.kotlin_version = '1.1.4-3'
-
+	ext.kotlinVersion = '1.1.4-3'
 	repositories {
 		mavenCentral()
+		maven { url "https://plugins.gradle.org/m2/" }
 	}
 	dependencies {
-		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+		classpath "com.moowork.gradle:gradle-node-plugin:1.2.0"
 	}
 }
 
 apply plugin: 'kotlin2js'
+apply plugin: 'com.moowork.gulp'
 
 repositories {
 	mavenCentral()
 }
 
 dependencies {
-	compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+	compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlinVersion"
 }
 
 task assembleWeb(type: Sync) {
@@ -39,3 +41,17 @@ task assembleWeb(type: Sync) {
 	dependsOn classes
 }
 assemble.dependsOn assembleWeb
+
+task bowerInstall(type: NodeTask) {
+	script = file('node_modules/bower/bin/bower')
+	args = ["--config.storage.cache=${gradle.getGradleUserHomeDir()}/caches/bower/cache",
+			"--config.storage.packages=${gradle.getGradleUserHomeDir()}/caches/bower/packages",
+			"--config.storage.registry=${gradle.getGradleUserHomeDir()}/caches/bower/registry",
+			'install']
+	inputs.files file('bower.json')
+	outputs.files file('bower_components')
+}
+
+bowerInstall.dependsOn npmInstall
+gulp_default.dependsOn bowerInstall
+//processResources.dependsOn gulp_default

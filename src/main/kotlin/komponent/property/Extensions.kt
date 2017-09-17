@@ -16,3 +16,5 @@ fun <A, B> MutableProperty<A>.map(transform1: (A) -> B, transform2: (B) -> A): M
 fun <A> Property<A>.bind(other: MutableProperty<A>) {
 	subscribe { other.set(it) }
 }
+
+fun <A> MutableProperty<A>.immutable(): Property<A> = object : Property<A> by this {}
