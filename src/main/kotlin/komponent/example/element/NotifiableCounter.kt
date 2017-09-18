@@ -16,8 +16,8 @@ abstract class NotifiableCounter : CustomElement() {
 		fun define() = defineElement("notifiable-counter", NotifiableCounter::class)
 	}
 
-	private val mutableCount: MutableProperty<Int> = Prop(1)
-	val count: Property<Int> = mutableCount.immutable()
+	private val _count: MutableProperty<Int> = Prop(1)
+	val count: Property<Int> = _count.immutable()
 
 	init {
 		shadowRoot {
@@ -30,7 +30,7 @@ abstract class NotifiableCounter : CustomElement() {
 				// Show notification on click and increment counter
 				addEventListener("click", {
 					Notification("This is the notification n°${count.get()}").send()
-					mutableCount.set(mutableCount.get() + 1)
+					_count.set(_count.get() + 1)
 				})
 			}
 		}
