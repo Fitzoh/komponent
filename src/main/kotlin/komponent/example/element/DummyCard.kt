@@ -7,9 +7,9 @@ import komponent.core.defineElement
 import komponent.core.div
 import komponent.core.h1
 import komponent.core.p
+import komponent.core.style
 import komponent.property.Prop
 import org.w3c.dom.HTMLElement
-import kotlin.browser.document
 import kotlin.dom.addClass
 
 abstract class DummyCard : CustomElement() {
@@ -38,11 +38,12 @@ abstract class DummyCard : CustomElement() {
 							|Cu mei vide viris gloriatur, at populo eripuit sit.
 							|""".trimMargin()
 			}
-		}.prepend(document.createElement("style").apply {
-			textContent = """
+
+			style {
+				"""
 				|:host {
 				|	display: block;
-				|	margin: 34px;
+				|	margin: 24px;
 				|	padding: 16px;
 				|	color: #757575;
 				|	background-color: #fff;
@@ -66,7 +67,8 @@ abstract class DummyCard : CustomElement() {
 				|	color: #212121;
 				|	font-size: 22px;
 				|}""".trimMargin()
-		})
+			}
+		}
 	}
 }
 

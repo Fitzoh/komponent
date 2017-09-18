@@ -6,6 +6,8 @@ import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLHeadElement
 import org.w3c.dom.HTMLParagraphElement
 import org.w3c.dom.HTMLSpanElement
+import org.w3c.dom.events.Event
+import org.w3c.dom.events.EventTarget
 import kotlin.browser.document
 
 fun <T : HTMLElement> createElement(name: String,
@@ -29,6 +31,10 @@ fun HTMLElement.h3(init: (HTMLHeadElement.() -> Unit)) = createElement("h3", thi
 fun HTMLElement.h4(init: (HTMLHeadElement.() -> Unit)) = createElement("h4", this, init)
 fun HTMLElement.h5(init: (HTMLHeadElement.() -> Unit)) = createElement("h5", this, init)
 fun HTMLElement.h6(init: (HTMLHeadElement.() -> Unit)) = createElement("h6", this, init)
+
+fun HTMLElement.style(init: (() -> String)? = null) = createElement<HTMLSpanElement>("style", this) { textContent = init?.invoke() }
+
+fun EventTarget.on(type: String, handler: (Event) -> Unit) = this.addEventListener(type, handler)
 
 fun <T> HTMLElement.lazy(name: String, supplier: () -> T): T {
 	val dyn: dynamic = this

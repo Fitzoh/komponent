@@ -9,16 +9,16 @@ fun HTMLElement.appToolbar(init: (AppToolbarElement.() -> Unit)? = null) = creat
 
 var AppToolbarElement.mainTitle: HTMLElement
 	get() = throw UnsupportedOperationException()
-	set(element) = element.setAttribute("main-title", "true")
+	set(element) = element.setAttribute("main-title", "")
 var AppToolbarElement.condensedTitle: HTMLElement
 	get() = throw UnsupportedOperationException()
-	set(element) = element.setAttribute("condensed-title", "true")
+	set(element) = element.setAttribute("condensed-title", "")
 var AppToolbarElement.bottomItem: HTMLElement
 	get() = throw UnsupportedOperationException()
-	set(element) = element.setAttribute("bottom-item", "true")
+	set(element) = element.setAttribute("bottom-item", "")
 var AppToolbarElement.topItem: HTMLElement
 	get() = throw UnsupportedOperationException()
-	set(element) = element.setAttribute("top-item", "true")
+	set(element) = element.setAttribute("top-item", "")
 var AppToolbarElement.spacer: HTMLElement
 	get() = throw UnsupportedOperationException()
-	set(element) = element.setAttribute("spacer", "true")
+	set(element) = element.setAttribute("spacer", "")

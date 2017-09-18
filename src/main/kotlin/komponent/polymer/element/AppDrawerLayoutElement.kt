@@ -22,7 +22,7 @@ fun AppDrawerLayoutElement.drawer(init: (AppDrawerElement.() -> Unit)? = null): 
 }
 var AppDrawerLayoutElement.drawerToggle: HTMLElement
 	get() = throw UnsupportedOperationException()
-	set(element) = element.setAttribute("drawer-toggle", "true")
+	set(element) = element.setAttribute("drawer-toggle", "")
 
 fun HTMLElement.appDrawerLayout(init: (AppDrawerLayoutElement.() -> Unit)? = null) = createElement("app-drawer-layout", this, init)
 

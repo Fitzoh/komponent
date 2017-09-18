@@ -3,13 +3,16 @@ package komponent.example.element
 import komponent.core.CustomElement
 import komponent.core.createElement
 import komponent.core.defineElement
+import komponent.core.style
 import komponent.event.Notification
+import komponent.example.SharedStyles
 import komponent.polymer.element.paperButton
 import komponent.property.MutableProperty
 import komponent.property.Prop
 import komponent.property.Property
 import komponent.property.immutable
 import org.w3c.dom.HTMLElement
+import kotlin.dom.addClass
 
 abstract class NotifiableCounter : CustomElement() {
 	companion object {
@@ -21,7 +24,11 @@ abstract class NotifiableCounter : CustomElement() {
 
 	init {
 		shadowRoot {
+			style {
+				SharedStyles.accent
+			}
 			paperButton {
+				addClass("accent")
 				raised = true
 
 				// Change button text when count changes

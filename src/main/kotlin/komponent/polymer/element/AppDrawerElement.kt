@@ -19,6 +19,16 @@ external abstract class AppDrawerElement : PolymerElement {
 
 	var transitionDuration: Int
 
+	fun close()
+
+	fun getWidth()
+
+	fun open()
+
+	fun resetLayout()
+
+	fun toggle()
+
 }
 
 val AppDrawerElement.opened get() = mutableProperty<Boolean>("opened")

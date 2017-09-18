@@ -24,51 +24,71 @@
 	<link rel="import" href="bower_components/paper-button/paper-button.html">
 	<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
 	<link rel="import" href="bower_components/paper-input/paper-input.html">
+	<link rel="import" href="bower_components/paper-item/paper-item.html">
 	<link rel="import" href="bower_components/paper-toast/paper-toast.html">
 
-	<style>
-		body {
-			margin: 0;
-			font-family: 'Roboto', 'Noto', sans-serif;
-			line-height: 1.5;
-			min-height: 100vh;
-			background-color: #eeeeee;
+	<custom-style>
 
-			--app-primary-color: #4285f4;
-			--app-secondary-color: black;
-		}
+		<style>
+			body {
+				margin: 0;
+				font-family: 'Roboto', 'Noto', sans-serif;
+				line-height: 1.5;
+				min-height: 100vh;
+				background-color: #eeeeee;
 
-		app-drawer-layout:not([narrow]) [drawer-toggle] {
-			display: none;
-		}
+				--dark-primary-color:       #455A64;
+				--default-primary-color:    #607D8B;
+				--light-primary-color:      #CFD8DC;
+				--text-primary-color:       #FFFFFF;
+				--accent-color:             #009688;
+				--primary-background-color: #CFD8DC;
+				--primary-text-color:       #212121;
+				--secondary-text-color:     #757575;
+				--disabled-text-color:      #BDBDBD;
+				--divider-color:            #BDBDBD;
+			}
 
-		app-header {
-			color: #fff;
-			background-color: var(--app-primary-color);
-		}
+			app-drawer-layout:not([narrow]) [drawer-toggle] {
+				display: none;
+			}
 
-		app-header paper-icon-button {
-			--paper-icon-button-ink-color: white;
-		}
+			app-header {
+				color: #fff;
+				background-color: var(--default-primary-color);
+			}
 
-		.drawer-list {
-			margin: 0 20px;
-		}
+			app-drawer-layout {
+				--app-drawer-layout-content-transition: margin 0.2s;
+			}
 
-		.drawer-list div {
-			display: block;
-			padding: 0 16px;
-			text-decoration: none;
-			color: var(--app-secondary-color);
-			line-height: 40px;
-			cursor: pointer;
-		}
+			app-header paper-icon-button {
+				--paper-icon-button-ink-color: white;
+			}
 
-		.drawer-list div.iron-selected {
-			color: black;
-			font-weight: bold;
-		}
-	</style>
+			app-drawer {
+				--app-drawer-content-container: {
+					background-color: #eee;
+				};
+			}
+
+			.drawer-list {
+				margin-top: 80px;
+			}
+
+			/*.drawer-list div {*/
+				/*display: block;*/
+				/*padding: 0 16px;*/
+				/*text-decoration: none;*/
+				/*line-height: 40px;*/
+				/*cursor: pointer;*/
+			/*}*/
+
+			/*.drawer-list .iron-selected {*/
+				/*font-weight: bold;*/
+			/*}*/
+		</style>
+	</custom-style>
 </head>
 <body>
 <script type="text/javascript" src="js/kotlin.js"></script>
