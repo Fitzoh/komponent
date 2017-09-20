@@ -22,6 +22,7 @@ import komponent.polymer.element.paperItem
 import komponent.property.MutableProperty
 import komponent.property.bind
 import org.w3c.dom.HTMLDivElement
+import org.w3c.dom.HTMLElement
 import kotlin.browser.document
 import kotlin.dom.addClass
 
@@ -32,7 +33,9 @@ fun main(args: Array<String>) {
 	var selectedTab: MutableProperty<String?>? = null
 	var menuButton: PaperIconButtonElement? = null
 
-	document.body!!.div {
+//	val parent = document.body!!
+	val parent = document.createElement("div") as HTMLElement
+	parent.div {
 		appHeaderLayout {
 			header {
 				fixed = true

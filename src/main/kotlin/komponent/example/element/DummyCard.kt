@@ -15,6 +15,9 @@ import kotlin.dom.addClass
 abstract class DummyCard : CustomElement() {
 	companion object {
 		fun define() = defineElement("dummy-card", DummyCard::class)
+		init {
+			observedAttributes<DummyCard>(arrayOf("heading", "number"))
+		}
 	}
 
 	private var _heading = Prop("Heading")

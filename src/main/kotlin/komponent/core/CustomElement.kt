@@ -1,5 +1,6 @@
 package komponent.core
 
+import addStaticMembersTo
 import org.w3c.dom.Element
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.OPEN
@@ -9,6 +10,19 @@ import kotlin.browser.window
 import kotlin.reflect.KClass
 
 abstract class CustomElement : HTMLElement() {
+
+	protected companion object {
+		inline fun <reified T : Any> observedAttributes(attributes: Array<String>) {
+			addStaticMembersTo<T>(object {
+				val observedAttributes = attributes
+			})
+		}
+	}
+
+	@JsName("attributeChangedCallback")
+	protected fun attributeChangedCallback(name: dynamic, oldValue: dynamic, newValue: dynamic) {
+		js("this[name] = newValue;")
+	}
 
 	protected fun shadowRoot(init: HTMLElement.() -> Unit): ShadowRoot {
 		val shadowRoot = attachShadow(ShadowRootInit(ShadowRootMode.OPEN))
