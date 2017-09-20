@@ -21,7 +21,7 @@ abstract class CustomElement : HTMLElement() {
 
 	@JsName("attributeChangedCallback")
 	protected fun attributeChangedCallback(name: dynamic, oldValue: dynamic, newValue: dynamic) {
-		js("this[name] = newValue;")
+		this.asDynamic()[name] = newValue
 	}
 
 	protected fun shadowRoot(init: HTMLElement.() -> Unit): ShadowRoot {
