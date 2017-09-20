@@ -9,6 +9,7 @@ import komponent.core.h1
 import komponent.core.p
 import komponent.core.style
 import komponent.property.Prop
+import komponent.property.bind
 import org.w3c.dom.HTMLElement
 import kotlin.dom.addClass
 
@@ -30,9 +31,9 @@ abstract class DummyCard : CustomElement() {
 		shadowRoot {
 			div {
 				addClass("circle")
-				_number.subscribe { textContent = number.toString() }
+				_number.bind(this::textContent) { it.toString() }
 			}
-			h1 { _heading.subscribe { textContent = it } }
+			h1 { _heading.bind(this::textContent) }
 			notifiableCounter()
 			p {
 				textContent = """
