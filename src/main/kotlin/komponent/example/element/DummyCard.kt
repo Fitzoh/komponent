@@ -21,8 +21,8 @@ abstract class DummyCard : CustomElement() {
 		}
 	}
 
-	private var _heading = Prop("Heading")
-	private var _number = Prop(0)
+	private val _heading = Prop("Heading")
+	private val _number = Prop(0)
 
 	var heading: String by PropertyDelegate(_heading)
 	var number: Int by PropertyDelegate(_number)
