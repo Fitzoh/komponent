@@ -3,6 +3,7 @@ package komponent.example.element
 import komponent.core.CustomElement
 import komponent.core.createElement
 import komponent.core.defineElement
+import komponent.core.on
 import komponent.core.style
 import komponent.event.Notification
 import komponent.example.SharedStyles
@@ -35,10 +36,10 @@ abstract class NotifiableCounter : CustomElement() {
 				count.subscribe { this.textContent = "Show notification $it" }
 
 				// Show notification on click and increment counter
-				addEventListener("click", {
+				on("click") {
 					Notification("This is the notification n°${count.get()}").send()
 					_count.set(_count.get() + 1)
-				})
+				}
 			}
 		}
 	}

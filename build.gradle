@@ -2,7 +2,7 @@ group 'komponent'
 version '1.0.0-SNAPSHOT'
 
 buildscript {
-	ext.kotlinVersion = '1.1.50'
+	ext.kotlinVersion = '1.2.20'
 	repositories {
 		mavenCentral()
 		maven { url "https://plugins.gradle.org/m2/" }
