@@ -32,16 +32,14 @@ fun main(args: Array<String>) {
 	var selectedTab: MutableProperty<String?>? = null
 	var menuButton: PaperIconButtonElement? = null
 
-	val parent = document.body!!
-//	val parent = document.createElement("div") as HTMLElement
-	parent.div {
+	document.body!!.div {
 		appHeaderLayout {
 			header {
 				fixed = true
 				shadow = true
 				appToolbar {
 					paperIconButton { icon = "komponent:menu" }.let { menuButton = it }
-					mainTitle = div { textContent = "Ozone Admin" }
+					mainTitle = div { textContent = "Komponent" }
 				}
 			}
 			appDrawerLayout {
