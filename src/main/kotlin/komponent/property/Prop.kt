@@ -20,9 +20,9 @@ class Prop<T>(initialValue: T) : MutableProperty<T> {
 	}
 
 	override fun set(newValue: T) {
-		val oldValue = this.value
+		val oldValue = value
 		if (oldValue != newValue) {
-			this.value = newValue
+			value = newValue
 			listeners.forEach { it(newValue) }
 		}
 	}
