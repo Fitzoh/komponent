@@ -1,6 +1,6 @@
 package komponent.polymer.element
 
-external abstract class PaperToastElement : PolymerElement {
+abstract external class PaperToastElement : PolymerElement {
 
 	fun show(properties: ToastProperties)
 
