@@ -2,7 +2,7 @@ package komponent.example.element
 
 import komponent.core.CustomElement
 import komponent.core.PropertyDelegate
-import komponent.core.createCustomElement
+import komponent.core.createElement
 import komponent.core.defineElement
 import komponent.core.div
 import komponent.core.h1
@@ -29,23 +29,24 @@ abstract class DummyCard : CustomElement() {
 	var heading: String by PropertyDelegate(_heading)
 	var number: Int by PropertyDelegate(_number)
 
-	override fun HTMLElement.render() {
-		div {
-			addClass("circle")
-			_number.bind(this::textContent) { it.toString() }
-		}
-		h1 { _heading.bind(this::textContent) }
-		notifiableCounter {}
-		p {
-			textContent = """
+	init {
+		render {
+			div {
+				addClass("circle")
+				_number.bind(this::textContent) { it.toString() }
+			}
+			h1 { _heading.bind(this::textContent) }
+			notifiableCounter {}
+			p {
+				textContent = """
 							|Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.
 							|Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.
 							|Cu mei vide viris gloriatur, at populo eripuit sit.
 							|""".trimMargin()
-		}
+			}
 
-		style {
-			"""
+			style {
+				"""
 				|:host {
 				|	display: block;
 				|	margin: 24px;
@@ -72,9 +73,10 @@ abstract class DummyCard : CustomElement() {
 				|	color: #212121;
 				|	font-size: 22px;
 				|}""".trimMargin()
+			}
 		}
 	}
 
 }
 
-fun HTMLElement.dummyCard(init: (DummyCard.() -> Unit)? = null) = createCustomElement(DummyCard.tag, this, init)
+fun HTMLElement.dummyCard(init: (DummyCard.() -> Unit)? = null) = createElement(DummyCard.tag, this, init)

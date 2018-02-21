@@ -1,3 +1,5 @@
+package komponent.core
+
 inline fun <reified T : Any> addStaticMembersTo(source: Any) {
 	val c = T::class.js.asDynamic()
 	val ownNames = js("Object").getOwnPropertyNames(source) as Array<String>

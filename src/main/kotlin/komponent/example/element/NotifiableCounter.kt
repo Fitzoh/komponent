@@ -1,7 +1,7 @@
 package komponent.example.element
 
 import komponent.core.CustomElement
-import komponent.core.createCustomElement
+import komponent.core.createElement
 import komponent.core.defineElement
 import komponent.core.on
 import komponent.core.style
@@ -20,24 +20,27 @@ abstract class NotifiableCounter : CustomElement() {
 
 	private val _count: MutableProperty<Int> = Prop(1)
 
-	override fun HTMLElement.render() {
-		style {
-			SharedStyles.accent
-		}
-		paperButton {
-			addClass("accent")
-			raised = true
+	init {
+		render {
+			style {
+				SharedStyles.accent
+			}
+			paperButton {
+				addClass("accent")
+				raised = true
 
-			// Change button text when count changes
-			_count.subscribe { this.textContent = "Show notification $it" }
+				// Change button text when count changes
+				_count.subscribe { this.textContent = "Show notification $it" }
 
-			// Show notification on click and increment counter
-			on("click") {
-				Notification("This is the notification n°${_count.get()}").send()
-				_count.set(_count.get() + 1)
+				// Show notification on click and increment counter
+				on("click") {
+					Notification("This is the notification n°${_count.get()}").send()
+					_count.set(_count.get() + 1)
+				}
 			}
 		}
 	}
+
 }
 
-fun HTMLElement.notifiableCounter(init: (NotifiableCounter.() -> Unit)? = null) = createCustomElement("notifiable-counter", this, init)
+fun HTMLElement.notifiableCounter(init: (NotifiableCounter.() -> Unit)? = null) = createElement("notifiable-counter", this, init)

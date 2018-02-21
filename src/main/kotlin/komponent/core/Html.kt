@@ -6,6 +6,7 @@ import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLHeadElement
 import org.w3c.dom.HTMLParagraphElement
 import org.w3c.dom.HTMLSpanElement
+import org.w3c.dom.HTMLStyleElement
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.EventTarget
 import kotlin.browser.document
@@ -32,7 +33,7 @@ fun HTMLElement.h4(init: (HTMLHeadElement.() -> Unit)) = createElement("h4", thi
 fun HTMLElement.h5(init: (HTMLHeadElement.() -> Unit)) = createElement("h5", this, init)
 fun HTMLElement.h6(init: (HTMLHeadElement.() -> Unit)) = createElement("h6", this, init)
 
-fun HTMLElement.style(init: (HTMLSpanElement.() -> String)? = null) = createElement<HTMLSpanElement>("style", this) { textContent = init?.invoke(this) }
+fun HTMLElement.style(init: (HTMLStyleElement.() -> String)? = null) = createElement<HTMLStyleElement>("style", this) { textContent = init?.invoke(this) }
 
 fun EventTarget.on(type: String, handler: (Event) -> Unit) = this.addEventListener(type, handler)
 
