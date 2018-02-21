@@ -20,7 +20,7 @@ abstract class CustomElement : HTMLElement() {
 		internal val camelToDashRegex = Regex("([a-zA-Z])(?=[A-Z])")
 		private val dashToCamelRegex = Regex("-([a-z])?")
 
-		inline fun <reified T : CustomElement> observedAttributes(attributes: Array<String>) {
+		inline fun <reified T : CustomElement> observedAttributes(vararg attributes: String) {
 			addStaticMembersTo<T>(object {
 				val observedAttributes = attributes.map {
 					it.replace(camelToDashRegex, "$1-").toLowerCase()

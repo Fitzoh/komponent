@@ -36,7 +36,7 @@ abstract class DummyCard : CustomElement() {
 		fun define() = defineElement(tag, DummyCard::class)
 
 		init {
-			observedAttributes<DummyCard>(arrayOf("heading", "number"))
+			observedAttributes<DummyCard>("heading", "number")
 		}
 	}
 
