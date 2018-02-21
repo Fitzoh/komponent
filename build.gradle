@@ -25,6 +25,7 @@ repositories {
 
 dependencies {
 	compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlinVersion"
+	compile 'xyz.nulldev:aza-kotlin-css-js:1.01'
 }
 
 task assembleWeb(type: Sync) {
