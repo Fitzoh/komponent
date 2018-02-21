@@ -18,6 +18,7 @@ abstract class NotifiableCounter : CustomElement() {
 	}
 
 	private var count by property(0)
+	var onCountChanged by propertyCallback(::count)
 
 	init {
 		render {

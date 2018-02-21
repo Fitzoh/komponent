@@ -15,6 +15,7 @@ abstract class DummyCard : CustomElement() {
 	companion object {
 		const val tag = "dummy-card"
 		fun define() = defineElement(tag, DummyCard::class)
+
 		init {
 			observedAttributes<DummyCard>(arrayOf("heading", "number"))
 		}
@@ -32,7 +33,9 @@ abstract class DummyCard : CustomElement() {
 			h1 {
 				subscribe(::heading) { textContent = it }
 			}
-			notifiableCounter {}
+			notifiableCounter {
+				onCountChanged = { println("Received count from child: $it") }
+			}
 			p {
 				textContent = """
 							|Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.
