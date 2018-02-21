@@ -27,14 +27,10 @@ abstract class DummyCard : CustomElement() {
 		render {
 			div {
 				addClass("circle")
-				subscribe(this@DummyCard::number) {
-					textContent = it.toString()
-				}
+				subscribe(::number) { textContent = it.toString() }
 			}
 			h1 {
-				subscribe(this@DummyCard::heading) {
-					textContent = it
-				}
+				subscribe(::heading) { textContent = it }
 			}
 			notifiableCounter {}
 			p {

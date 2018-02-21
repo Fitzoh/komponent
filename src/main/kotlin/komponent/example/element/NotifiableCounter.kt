@@ -29,9 +29,7 @@ abstract class NotifiableCounter : CustomElement() {
 				raised = true
 
 				// Change button text when count changes
-				subscribe(this@NotifiableCounter::count) {
-					textContent = "Show notification $it"
-				}
+				subscribe(::count) { textContent = "Show notification $it" }
 
 				// Show notification on click and increment counter
 				on("click") {
