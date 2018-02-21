@@ -1,6 +1,7 @@
 package komponent.example
 
 import azadev.kotlin.css.Stylesheet
+import azadev.kotlin.css.WHITE
 import azadev.kotlin.css.backgroundColor
 import azadev.kotlin.css.color
 
@@ -10,7 +11,7 @@ object SharedStyles {
 	fun Stylesheet.accent() {
 		c(accentClass) {
 			backgroundColor = "var(--accent-color)"
-			color = "white"
+			color = WHITE
 		}
 	}
 
