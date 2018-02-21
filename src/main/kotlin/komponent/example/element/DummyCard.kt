@@ -1,15 +1,12 @@
 package komponent.example.element
 
 import komponent.core.CustomElement
-import komponent.core.PropertyDelegate
 import komponent.core.createElement
 import komponent.core.defineElement
 import komponent.core.div
 import komponent.core.h1
 import komponent.core.p
 import komponent.core.style
-import komponent.property.Prop
-import komponent.property.bind
 import org.w3c.dom.HTMLElement
 import kotlin.dom.addClass
 
@@ -23,19 +20,22 @@ abstract class DummyCard : CustomElement() {
 		}
 	}
 
-	private val _heading = Prop("Heading")
-	private val _number = Prop(0)
-
-	var heading: String by PropertyDelegate(_heading)
-	var number: Int by PropertyDelegate(_number)
+	var heading: String by property("Heading")
+	var number: Int by property(0)
 
 	init {
 		render {
 			div {
 				addClass("circle")
-				_number.bind(this::textContent) { it.toString() }
+				subscribe(this@DummyCard::number) {
+					textContent = it.toString()
+				}
 			}
-			h1 { _heading.bind(this::textContent) }
+			h1 {
+				subscribe(this@DummyCard::heading) {
+					textContent = it
+				}
+			}
 			notifiableCounter {}
 			p {
 				textContent = """

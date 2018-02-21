@@ -8,17 +8,16 @@ import komponent.core.style
 import komponent.event.Notification
 import komponent.example.SharedStyles
 import komponent.polymer.element.paperButton
-import komponent.property.MutableProperty
-import komponent.property.Prop
 import org.w3c.dom.HTMLElement
 import kotlin.dom.addClass
 
 abstract class NotifiableCounter : CustomElement() {
 	companion object {
-		fun define() = defineElement("notifiable-counter", NotifiableCounter::class)
+		const val tag = "notifiable-counter"
+		fun define() = defineElement(tag, NotifiableCounter::class)
 	}
 
-	private val _count: MutableProperty<Int> = Prop(1)
+	private var count by property(0)
 
 	init {
 		render {
@@ -30,12 +29,14 @@ abstract class NotifiableCounter : CustomElement() {
 				raised = true
 
 				// Change button text when count changes
-				_count.subscribe { this.textContent = "Show notification $it" }
+				subscribe(this@NotifiableCounter::count) {
+					textContent = "Show notification $it"
+				}
 
 				// Show notification on click and increment counter
 				on("click") {
-					Notification("This is the notification n°${_count.get()}").send()
-					_count.set(_count.get() + 1)
+					Notification("This is the notification n°$count").send()
+					count += 1
 				}
 			}
 		}
@@ -43,4 +44,4 @@ abstract class NotifiableCounter : CustomElement() {
 
 }
 
-fun HTMLElement.notifiableCounter(init: (NotifiableCounter.() -> Unit)? = null) = createElement("notifiable-counter", this, init)
+fun HTMLElement.notifiableCounter(init: (NotifiableCounter.() -> Unit)? = null) = createElement(NotifiableCounter.tag, this, init)
