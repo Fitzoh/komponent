@@ -44,10 +44,10 @@ abstract class CustomElement : HTMLElement() {
 
 	private class ShadowRootInit(override var mode: ShadowRootMode?) : org.w3c.dom.ShadowRootInit
 
-	protected fun <T> subscribe(property: KProperty0<T>, listener: Listener<T>) {
+	protected fun <T> subscribe(property: KProperty0<T>, listener: Listener<T>): Subscription {
 		val propertyName = property.name
 		val delegate = delegatesMap[propertyName] ?: throw IllegalArgumentException("$propertyName is not a property")
-		(delegate.delegate as Prop<T>).subscribe(listener)
+		return (delegate.delegate as Prop<T>).subscribe(listener)
 	}
 
 	protected fun <T> property(initialValue: T) = PropertyLoader(initialValue)
