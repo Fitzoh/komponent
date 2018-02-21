@@ -7,6 +7,7 @@ import komponent.core.on
 import komponent.core.style
 import komponent.event.Notification
 import komponent.example.SharedStyles
+import komponent.example.SharedStyles.accent
 import komponent.polymer.element.paperButton
 import org.w3c.dom.HTMLElement
 import kotlin.dom.addClass
@@ -22,11 +23,8 @@ abstract class NotifiableCounter : CustomElement() {
 
 	init {
 		render {
-			style {
-				SharedStyles.accent
-			}
 			paperButton {
-				addClass("accent")
+				addClass(SharedStyles.accentClass)
 				raised = true
 
 				// Change button text when count changes
@@ -37,6 +35,10 @@ abstract class NotifiableCounter : CustomElement() {
 					Notification("This is the notification n°$count").send()
 					count += 1
 				}
+			}
+
+			style {
+				accent()
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 package komponent.core
 
+import azadev.kotlin.css.Stylesheet
 import org.w3c.dom.HTMLAnchorElement
 import org.w3c.dom.HTMLDivElement
 import org.w3c.dom.HTMLElement
@@ -33,7 +34,9 @@ fun HTMLElement.h4(init: (HTMLHeadElement.() -> Unit)) = createElement("h4", thi
 fun HTMLElement.h5(init: (HTMLHeadElement.() -> Unit)) = createElement("h5", this, init)
 fun HTMLElement.h6(init: (HTMLHeadElement.() -> Unit)) = createElement("h6", this, init)
 
-fun HTMLElement.style(init: (HTMLStyleElement.() -> String)? = null) = createElement<HTMLStyleElement>("style", this) { textContent = init?.invoke(this) }
+fun HTMLElement.style(init: (Stylesheet.() -> Unit)? = null) = createElement<HTMLStyleElement>("style", this) {
+	textContent = Stylesheet(init).render()
+}
 
 fun EventTarget.on(type: String, handler: (Event) -> Unit) = this.addEventListener(type, handler)
 

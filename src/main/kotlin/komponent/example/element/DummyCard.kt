@@ -1,5 +1,18 @@
 package komponent.example.element
 
+import azadev.kotlin.css.backgroundColor
+import azadev.kotlin.css.borderRadius
+import azadev.kotlin.css.boxShadow
+import azadev.kotlin.css.color
+import azadev.kotlin.css.dimens.px
+import azadev.kotlin.css.display
+import azadev.kotlin.css.fontSize
+import azadev.kotlin.css.height
+import azadev.kotlin.css.lineHeight
+import azadev.kotlin.css.margin
+import azadev.kotlin.css.padding
+import azadev.kotlin.css.textAlign
+import azadev.kotlin.css.width
 import komponent.core.CustomElement
 import komponent.core.createElement
 import komponent.core.defineElement
@@ -26,8 +39,11 @@ abstract class DummyCard : CustomElement() {
 
 	init {
 		render {
+			val circleClass = "circle"
+
+			// DOM
 			div {
-				addClass("circle")
+				addClass(circleClass)
 				subscribe(::number) { textContent = it.toString() }
 			}
 			h1 {
@@ -44,34 +60,34 @@ abstract class DummyCard : CustomElement() {
 							|""".trimMargin()
 			}
 
+			// CSS
 			style {
-				"""
-				|:host {
-				|	display: block;
-				|	margin: 24px;
-				|	padding: 16px;
-				|	color: #757575;
-				|	background-color: #fff;
-				|	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-				|}
-				|
-				|.circle {
-				|	display: inline-block;
-				|	width: 64px;
-				|	height: 64px;
-				|	text-align: center;
-				|	color: #555;
-				|	border-radius: 50%;
-				|	background: #ddd;
-				|	font-size: 30px;
-				|	line-height: 64px;
-				|}
-				|
-				|h1 {
-				|	margin: 16px 0;
-				|	color: #212121;
-				|	font-size: 22px;
-				|}""".trimMargin()
+				":host" {
+					display = "block"
+					margin = 24.px
+					padding = 16.px
+					color = 0x757575
+					backgroundColor = 0xffffff
+					boxShadow = "0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2)"
+				}
+
+				c(circleClass) {
+					display = "inline-block"
+					width = 64.px
+					height = 64.px
+					textAlign = "center"
+					color = 0x555
+					borderRadius = "50%"
+					backgroundColor = 0xdddddd
+					fontSize = 30.px
+					lineHeight = 64.px
+				}
+
+				h1 {
+					margin = "16px 0"
+					color = 0x212121
+					fontSize = 22.px
+				}
 			}
 		}
 	}
