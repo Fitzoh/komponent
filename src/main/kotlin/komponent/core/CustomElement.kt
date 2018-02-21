@@ -56,8 +56,7 @@ abstract class CustomElement : HTMLElement() {
 	private fun <T> getMutableProperty(property: KProperty0<T>): MutableProperty<T> {
 		val propertyName = property.name
 		val delegate = delegatesMap[propertyName] ?: throw IllegalArgumentException("$propertyName is not a property")
-		val prop = delegate.delegate as MutableProperty<T>
-		return prop
+		return delegate.delegate as MutableProperty<T>
 	}
 
 	protected inner class PropertyLoader<T>(private val initialValue: T) {
