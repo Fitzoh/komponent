@@ -1,12 +1,11 @@
 package komponent.polymer.behavior
 
+import komponent.core.Listener
 import komponent.polymer.element.asPolymerElement
-import komponent.polymer.element.mutableProperty
-import komponent.polymer.element.property
-import komponent.property.map
+import komponent.polymer.element.propertyCallbackDelegate
 import org.w3c.dom.HTMLElement
 
-external interface IronSelectableBehavior<T> {
+external interface IronSelectableBehavior<out T> {
 
 	var activateEvent: String
 
@@ -14,9 +13,15 @@ external interface IronSelectableBehavior<T> {
 
 	var fallbackSelection: String?
 
+	val items: List<T>
+
 	var selectable: String?
 
+	var selected: Any? // String or Int
+
 	var selectedAttribute: String?
+
+	val selectedItem: T?
 
 	var selectedClass: String
 
@@ -32,6 +37,10 @@ external interface IronSelectableBehavior<T> {
 
 }
 
-val <T> IronSelectableBehavior<T>.items get() = asPolymerElement().property<List<T>>("items")
-val <T> IronSelectableBehavior<T>.selected get() = asPolymerElement().mutableProperty<Any?>("selected").map({ it?.toString() }, { it })
-val <T> IronSelectableBehavior<T>.selectedItem get() = asPolymerElement().property<T?>("selectedItem")
+
+var <T> IronSelectableBehavior<T>.onSelectedChanged: Listener<Any?>?
+	get() = throw UnsupportedOperationException("Can not get listener. Update the associated property to call it instead.")
+	set(value) = asPolymerElement().propertyCallbackDelegate<Any?>("selected").setValue(this, this::selected, value)
+//val <T> IronSelectableBehavior<T>.items get() = asPolymerElement().property<List<T>>("items")
+//val <T> IronSelectableBehavior<T>.selected get() = asPolymerElement().mutableProperty<Any?>("selected").map({ it?.toString() }, { it })
+//val <T> IronSelectableBehavior<T>.selectedItem get() = asPolymerElement().property<T?>("selectedItem")

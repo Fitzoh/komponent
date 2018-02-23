@@ -6,7 +6,8 @@ import komponent.example.element.DummyCard
 import komponent.example.element.NotifiableCounter
 import komponent.example.element.dummyCard
 import komponent.polymer.Polymer
-import komponent.polymer.behavior.selected
+import komponent.polymer.behavior.onSelectedChanged
+import komponent.polymer.element.IronSelectorElement
 import komponent.polymer.element.PaperIconButtonElement
 import komponent.polymer.element.appDrawerLayout
 import komponent.polymer.element.appHeaderLayout
@@ -20,7 +21,6 @@ import komponent.polymer.element.narrow
 import komponent.polymer.element.paperIconButton
 import komponent.polymer.element.paperItem
 import komponent.property.MutableProperty
-import komponent.property.bind
 import org.w3c.dom.HTMLDivElement
 import kotlin.browser.document
 import kotlin.dom.addClass
@@ -31,6 +31,8 @@ fun main(args: Array<String>) {
 
 	var selectedTab: MutableProperty<String?>? = null
 	var menuButton: PaperIconButtonElement? = null
+
+	var tabSelector: IronSelectorElement<HTMLDivElement>? = null
 
 	document.body!!.div {
 		appHeaderLayout {
@@ -46,19 +48,20 @@ fun main(args: Array<String>) {
 				drawer {
 					div {
 						addClass("drawer-list")
-						ironSelector<HTMLDivElement> {
+						tabSelector = ironSelector {
 							paperItem { textContent = "View One" }
 							paperItem { textContent = "View Two" }
 							paperItem { textContent = "View Three" }
-						}.let { selectedTab = it.selected }
+						}
 					}
 				}
 
-				ironPages<DummyCard> {
+				val ironPages = ironPages<DummyCard> {
 					dummyCard { heading = "View One"; number = 1 }
 					dummyCard { heading = "View Two"; number = 2 }
 					dummyCard { heading = "View Three"; number = 3 }
-				}.let { selectedTab!!.bind(it.selected) }
+				}
+				tabSelector!!.onSelectedChanged = { ironPages.selected = it }
 			}.let { drawerLayout ->
 				menuButton!!.on("click") {
 					if (drawerLayout.forceNarrow || !drawerLayout.narrow.get()) {

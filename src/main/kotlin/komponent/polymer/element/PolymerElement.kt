@@ -1,7 +1,9 @@
 package komponent.polymer.element
 
 import komponent.core.Listener
+import komponent.core.PropertyCallbackDelegate
 import komponent.core.Subscription
+import komponent.core.fromCamelToDashCase
 import komponent.core.lazy
 import komponent.property.MutableProperty
 import komponent.property.Property
@@ -14,6 +16,7 @@ annotation class PolymerDslMarker
 @PolymerDslMarker
 abstract external class PolymerElement : HTMLElement
 
+internal fun <T> PolymerElement.propertyCallbackDelegate(name: String): PropertyCallbackDelegate<T> = PropertyCallbackDelegate(property(name))
 internal fun <T> PolymerElement.property(name: String): Property<T> = lazy(name) { PolymerProperty(this, name) }
 internal fun <T> PolymerElement.mutableProperty(name: String): MutableProperty<T> = lazy("${name}__mutable") { PolymerMutableProperty(this, name) }
 
@@ -25,7 +28,7 @@ private open class PolymerProperty<out T>(protected val delegate: dynamic,
 	private val listeners = LinkedHashSet<Listener<T>>()
 
 	init {
-		val dashCasedProperty = property.replace(Regex("[A-Z]"), { "-${it.groupValues[0].toLowerCase()}" })
+		val dashCasedProperty = property.fromCamelToDashCase()
 		delegate.addEventListener("$dashCasedProperty-changed", { event ->
 			listeners.forEach { it(event.detail.value as T) }
 		})

@@ -2,7 +2,6 @@ package komponent.core
 
 import komponent.property.MutableProperty
 import komponent.property.Prop
-import komponent.property.Property
 import org.w3c.dom.Element
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.OPEN
@@ -16,15 +15,9 @@ import kotlin.reflect.KProperty0
 abstract class CustomElement : HTMLElement() {
 
 	protected companion object {
-		@PublishedApi
-		internal val camelToDashRegex = Regex("([a-zA-Z])(?=[A-Z])")
-		private val dashToCamelRegex = Regex("-([a-z])?")
-
 		inline fun <reified T : CustomElement> observedAttributes(vararg attributes: String) {
 			addStaticMembersTo<T>(object {
-				val observedAttributes = attributes.map {
-					it.replace(camelToDashRegex, "$1-").toLowerCase()
-				}.toTypedArray()
+				val observedAttributes = attributes.map { it.fromCamelToDashCase() }.toTypedArray()
 			})
 		}
 	}
@@ -33,7 +26,7 @@ abstract class CustomElement : HTMLElement() {
 
 	@JsName("attributeChangedCallback")
 	private fun attributeChangedCallback(name: String, oldValue: dynamic, newValue: dynamic) {
-		val camelCasedName = name.replace(dashToCamelRegex) { it.groups[1]?.value?.toUpperCase() ?: "" }
+		val camelCasedName = name.fromDashToCamelCase()
 		this.asDynamic()[camelCasedName] = newValue
 	}
 
@@ -73,21 +66,6 @@ abstract class CustomElement : HTMLElement() {
 		}
 		override fun setValue(thisRef: CustomElement, property: KProperty<*>, value: T) {
 			delegate.set(value)
-		}
-	}
-
-	protected class PropertyCallbackDelegate<T>(private val property: Property<T>): ReadWriteProperty<CustomElement, Listener<T>?> {
-		private var subscription: Subscription? = null
-		override fun getValue(thisRef: CustomElement, property: KProperty<*>): Listener<T>? {
-			throw UnsupportedOperationException("Can not get listener. Update the associated property to call it instead.")
-		}
-
-		override fun setValue(thisRef: CustomElement, property: KProperty<*>, value: Listener<T>?) {
-			subscription?.cancel()
-			subscription = null
-			if (value != null) {
-				subscription = this.property.subscribe { value(it) }
-			}
 		}
 	}
 
