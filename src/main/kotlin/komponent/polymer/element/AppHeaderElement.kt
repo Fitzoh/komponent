@@ -4,7 +4,7 @@ import komponent.core.createElement
 import komponent.polymer.behavior.AppScrollEffectsBehavior
 import org.w3c.dom.HTMLElement
 
-external abstract class AppHeaderElement : PolymerElement, AppScrollEffectsBehavior {
+abstract external class AppHeaderElement : PolymerElement, AppScrollEffectsBehavior {
 
 	var condenses: Boolean
 

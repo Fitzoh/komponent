@@ -3,7 +3,7 @@ package komponent.polymer.element
 import komponent.core.createElement
 import org.w3c.dom.HTMLElement
 
-external abstract class AppToolbarElement : PolymerElement
+abstract external class AppToolbarElement : PolymerElement
 
 fun HTMLElement.appToolbar(init: (AppToolbarElement.() -> Unit)? = null) = createElement("app-toolbar", this, init)
 

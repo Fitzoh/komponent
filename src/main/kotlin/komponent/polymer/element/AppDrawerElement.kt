@@ -3,7 +3,7 @@ package komponent.polymer.element
 import komponent.core.createElement
 import org.w3c.dom.HTMLElement
 
-external abstract class AppDrawerElement : PolymerElement {
+abstract external class AppDrawerElement : PolymerElement {
 
 	var align: String
 

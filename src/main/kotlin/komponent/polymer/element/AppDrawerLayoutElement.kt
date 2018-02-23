@@ -4,7 +4,7 @@ import komponent.core.createElement
 import komponent.core.lazy
 import org.w3c.dom.HTMLElement
 
-external abstract class AppDrawerLayoutElement : PolymerElement {
+abstract external class AppDrawerLayoutElement : PolymerElement {
 
 	var forceNarrow: Boolean
 

@@ -6,7 +6,7 @@ import komponent.polymer.behavior.IronControlState
 import komponent.polymer.behavior.PaperRippleBehavior
 import org.w3c.dom.HTMLElement
 
-external abstract class PaperIconButtonElement : PolymerElement, IronButtonState, IronControlState, PaperRippleBehavior {
+abstract external class PaperIconButtonElement : PolymerElement, IronButtonState, IronControlState, PaperRippleBehavior {
 
 	var icon: String?
 
