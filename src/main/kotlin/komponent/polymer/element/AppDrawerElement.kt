@@ -1,5 +1,6 @@
 package komponent.polymer.element
 
+import komponent.core.Listener
 import komponent.core.createElement
 import org.w3c.dom.HTMLElement
 
@@ -8,6 +9,8 @@ abstract external class AppDrawerElement : PolymerElement {
 	var align: String
 
 	var disableSwipe: Boolean
+
+	var opened: Boolean
 
 	var noFocusTrap: Boolean
 
@@ -31,6 +34,8 @@ abstract external class AppDrawerElement : PolymerElement {
 
 }
 
-val AppDrawerElement.opened get() = mutableProperty<Boolean>("opened")
+var AppDrawerElement.onOpenedChanged: Listener<Boolean>?
+	get() = throw UnsupportedOperationException("Can not get listener. Update the associated property to call it instead.")
+	set(value) = asPolymerElement().propertyCallbackDelegate<Boolean>("opened").setValue(this, ::opened, value)
 
 fun HTMLElement.appDrawer(init: (AppDrawerElement.() -> Unit)? = null) = createElement("app-drawer", this, init)

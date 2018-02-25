@@ -1,7 +1,8 @@
 package komponent.polymer.behavior
 
+import komponent.core.Listener
 import komponent.polymer.element.asPolymerElement
-import komponent.polymer.element.property
+import komponent.polymer.element.propertyCallbackDelegate
 
 external interface AppScrollEffectsBehavior : IronScrollTargetBehavior {
 
@@ -13,6 +14,8 @@ external interface AppScrollEffectsBehavior : IronScrollTargetBehavior {
 
 	var threshold: Int
 
+	val thresholdTriggered: Boolean
+
 	fun createEffect(effectName: String, effectConfig: dynamic): dynamic
 
 	fun isContentBelow(): Boolean
@@ -21,4 +24,6 @@ external interface AppScrollEffectsBehavior : IronScrollTargetBehavior {
 
 }
 
-fun AppScrollEffectsBehavior.thresholdTriggered() = asPolymerElement().property<Boolean>("thresholdTriggered")
+var AppScrollEffectsBehavior.onThresholdTriggeredChanged: Listener<Boolean>?
+	get() = throw UnsupportedOperationException("Can not get listener. Update the associated property to call it instead.")
+	set(value) = asPolymerElement().propertyCallbackDelegate<Boolean>("thresholdTriggered").setValue(this, ::thresholdTriggered, value)

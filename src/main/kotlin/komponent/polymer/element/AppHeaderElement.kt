@@ -22,6 +22,6 @@ abstract external class AppHeaderElement : PolymerElement, AppScrollEffectsBehav
 
 var AppHeaderElement.sticky: HTMLElement
 	get() = throw UnsupportedOperationException()
-	set(element) { element.setAttribute("sticky", "true") }
+	set(element) = element.setAttribute("sticky", "true")
 
 fun HTMLElement.appHeader(init: (AppHeaderElement.() -> Unit)? = null) = createElement("app-header", this, init)

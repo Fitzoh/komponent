@@ -38,9 +38,12 @@ external interface IronSelectableBehavior<out T> {
 }
 
 
+var <T> IronSelectableBehavior<T>.onItemsChanged: Listener<List<T>>?
+	get() = throw UnsupportedOperationException("Can not get listener. Update the associated property to call it instead.")
+	set(value) = asPolymerElement().propertyCallbackDelegate<List<T>>("items").setValue(this, ::items, value)
 var <T> IronSelectableBehavior<T>.onSelectedChanged: Listener<Any?>?
 	get() = throw UnsupportedOperationException("Can not get listener. Update the associated property to call it instead.")
-	set(value) = asPolymerElement().propertyCallbackDelegate<Any?>("selected").setValue(this, this::selected, value)
-//val <T> IronSelectableBehavior<T>.items get() = asPolymerElement().property<List<T>>("items")
-//val <T> IronSelectableBehavior<T>.selected get() = asPolymerElement().mutableProperty<Any?>("selected").map({ it?.toString() }, { it })
-//val <T> IronSelectableBehavior<T>.selectedItem get() = asPolymerElement().property<T?>("selectedItem")
+	set(value) = asPolymerElement().propertyCallbackDelegate<Any?>("selected").setValue(this, ::selected, value)
+var <T> IronSelectableBehavior<T>.onSelectedItemChanged: Listener<T?>?
+	get() = throw UnsupportedOperationException("Can not get listener. Update the associated property to call it instead.")
+	set(value) = asPolymerElement().propertyCallbackDelegate<T?>("selectedItem").setValue(this, ::selectedItem, value)

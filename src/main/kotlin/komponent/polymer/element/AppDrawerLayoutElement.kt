@@ -8,13 +8,14 @@ abstract external class AppDrawerLayoutElement : PolymerElement {
 
 	var forceNarrow: Boolean
 
+	val narrow: Boolean
+
 	var openedWhenNarrow: Boolean
 
 	var responsiveWidth: String
 
 }
 
-val AppDrawerLayoutElement.narrow get() = property<Boolean>("narrow")
 val AppDrawerLayoutElement.drawer get() = drawer()
 fun AppDrawerLayoutElement.drawer(init: (AppDrawerElement.() -> Unit)? = null): AppDrawerElement = lazy("drawer") { appDrawer() }.also {
 	it.setAttribute("slot", "drawer")

@@ -1,19 +1,23 @@
 package komponent.polymer.behavior
 
+import komponent.core.Listener
 import komponent.polymer.element.asPolymerElement
-import komponent.polymer.element.mutableProperty
-import komponent.polymer.element.property
-import komponent.property.MutableProperty
-import komponent.property.map
+import komponent.polymer.element.propertyCallbackDelegate
 
-external interface IronMultiSelectableBehavior<T> : IronSelectableBehavior<T> {
+external interface IronMultiSelectableBehavior<out T> : IronSelectableBehavior<T> {
 
 	var multi: Boolean
 
+	val selectedItems: List<T>
+
+	var selectedValues: List<Any>
+
 }
 
-fun <T> IronMultiSelectableBehavior<T>.selectedValues(): MutableProperty<List<String>> {
-	return asPolymerElement().mutableProperty<List<Any>>("selectedValues").map({ it.map { it.toString() } }, { it })
-}
+var <T> IronMultiSelectableBehavior<T>.onSelectedItemsChanged: Listener<List<T>>?
+	get() = throw UnsupportedOperationException("Can not get listener. Update the associated property to call it instead.")
+	set(value) = asPolymerElement().propertyCallbackDelegate<List<T>>("selectedItems").setValue(this, ::selectedItems, value)
 
-fun <T> IronMultiSelectableBehavior<T>.selectedItems() = asPolymerElement().property<List<T>>("selectedItems")
+var <T> IronMultiSelectableBehavior<T>.onSelectedValuesChanged: Listener<List<Any>>?
+	get() = throw UnsupportedOperationException("Can not get listener. Update the associated property to call it instead.")
+	set(value) = asPolymerElement().propertyCallbackDelegate<List<Any>>("selectedValues").setValue(this, ::selectedValues, value)

@@ -9,16 +9,10 @@ import komponent.property.MutableProperty
 import komponent.property.Property
 import org.w3c.dom.HTMLElement
 
-
-@DslMarker
-annotation class PolymerDslMarker
-
-@PolymerDslMarker
 abstract external class PolymerElement : HTMLElement
 
 internal fun <T> PolymerElement.propertyCallbackDelegate(name: String): PropertyCallbackDelegate<T> = PropertyCallbackDelegate(property(name))
-internal fun <T> PolymerElement.property(name: String): Property<T> = lazy(name) { PolymerProperty(this, name) }
-internal fun <T> PolymerElement.mutableProperty(name: String): MutableProperty<T> = lazy("${name}__mutable") { PolymerMutableProperty(this, name) }
+private fun <T> PolymerElement.property(name: String): MutableProperty<T> = lazy("${name}__mutable") { PolymerMutableProperty(this, name) }
 
 internal fun Any.asPolymerElement(): PolymerElement = this.asDynamic()
 
