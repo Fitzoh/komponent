@@ -5,14 +5,13 @@ import komponent.core.PropertyCallbackDelegate
 import komponent.core.Subscription
 import komponent.core.fromCamelToDashCase
 import komponent.core.lazy
-import komponent.property.MutableProperty
 import komponent.property.Property
 import org.w3c.dom.HTMLElement
 
 abstract external class PolymerElement : HTMLElement
 
 internal fun <T> PolymerElement.propertyCallbackDelegate(name: String): PropertyCallbackDelegate<T> = PropertyCallbackDelegate(property(name))
-private fun <T> PolymerElement.property(name: String): MutableProperty<T> = lazy("${name}__mutable") { PolymerMutableProperty(this, name) }
+private fun <T> PolymerElement.property(name: String): Property<T> = lazy(name) { PolymerProperty(this, name) }
 
 internal fun Any.asPolymerElement(): PolymerElement = this.asDynamic()
 
@@ -37,15 +36,6 @@ private open class PolymerProperty<out T>(protected val delegate: dynamic,
 				listeners.remove(listener)
 			}
 		}
-	}
-
-}
-
-private class PolymerMutableProperty<T>(delegate: dynamic,
-										property: String) : MutableProperty<T>, PolymerProperty<T>(delegate, property) {
-
-	override fun set(newValue: T) {
-		delegate[property] = newValue
 	}
 
 }

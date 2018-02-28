@@ -8,7 +8,8 @@ object Events {
 
 	private val listeners = hashMapOf<KClass<*>, MutableSet<Listener<*>>>()
 
-	fun <T : Any> subscribe(clazz: KClass<T>, listener: Listener<T>): Subscription {
+	@PublishedApi
+	internal fun <T : Any> subscribe(clazz: KClass<T>, listener: Listener<T>): Subscription {
 		if (!listeners.containsKey(clazz)) {
 			listeners[clazz] = hashSetOf()
 		}
