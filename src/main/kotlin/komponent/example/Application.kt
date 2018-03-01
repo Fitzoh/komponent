@@ -27,41 +27,42 @@ import kotlin.dom.addClass
 fun main(args: Array<String>) {
 	defineElements()
 	Polymer.install()
+	renderApplication()
+}
 
+private fun renderApplication() {
 	var menuButton: PaperIconButtonElement? = null
 	var drawerLayout: AppDrawerLayoutElement? = null
 	var tabSelector: IronSelectorElement<HTMLDivElement>? = null
 
-	document.body!!.div {
-		appHeaderLayout {
-			header {
-				fixed = true
-				shadow = true
-				appToolbar {
-					menuButton = paperIconButton { icon = "komponent:menu" }
-					mainTitle = div { textContent = "Komponent" }
-				}
+	document.body!!.appHeaderLayout {
+		header {
+			fixed = true
+			shadow = true
+			appToolbar {
+				menuButton = paperIconButton { icon = "komponent:menu" }
+				mainTitle = div { textContent = "Komponent" }
 			}
+		}
 
-			drawerLayout = appDrawerLayout {
-				drawer {
-					div {
-						addClass("drawer-list")
-						tabSelector = ironSelector {
-							paperItem { textContent = "View One" }
-							paperItem { textContent = "View Two" }
-							paperItem { textContent = "View Three" }
-						}
+		drawerLayout = appDrawerLayout {
+			drawer {
+				div {
+					addClass("drawer-list")
+					tabSelector = ironSelector {
+						paperItem { textContent = "View One" }
+						paperItem { textContent = "View Two" }
+						paperItem { textContent = "View Three" }
 					}
 				}
-
-				val ironPages = ironPages<DummyCard> {
-					dummyCard { heading = "View One"; number = 1 }
-					dummyCard { heading = "View Two"; number = 2 }
-					dummyCard { heading = "View Three"; number = 3 }
-				}
-				tabSelector!!.onSelectedChanged = { ironPages.selected = it }
 			}
+
+			val ironPages = ironPages<DummyCard> {
+				dummyCard { heading = "View One"; number = 1 }
+				dummyCard { heading = "View Two"; number = 2 }
+				dummyCard { heading = "View Three"; number = 3 }
+			}
+			tabSelector!!.onSelectedChanged = { ironPages.selected = it }
 		}
 	}
 
@@ -69,8 +70,8 @@ fun main(args: Array<String>) {
 	tabSelector!!.selected = "0"
 
 	// Handle drawer layout menu button
-	val theDrawerLayout = drawerLayout!!
 	menuButton!!.on("click") {
+		val theDrawerLayout = drawerLayout!!
 		if (theDrawerLayout.forceNarrow || !theDrawerLayout.narrow) {
 			theDrawerLayout.forceNarrow = !theDrawerLayout.forceNarrow
 		} else {

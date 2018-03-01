@@ -55,9 +55,7 @@ abstract class DummyCard : CustomElement() {
 			h1 {
 				subscribe(::heading) { textContent = it }
 			}
-			notifiableCounter {
-				onCountChanged = { println("Received count from child: $it") }
-			}
+			notifiableCounter {}
 			p {
 				textContent = """
 							|Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.
