@@ -3,7 +3,7 @@ version '1.0.0-SNAPSHOT'
 
 buildscript {
 	ext {
-		kotlinVersion = '1.2.20'
+		kotlinVersion = '1.2.30'
 	}
 	repositories {
 		mavenCentral()
@@ -22,6 +22,11 @@ repositories {
 	mavenCentral()
 	jcenter()
 }
+
+// TODO find better typed CSS library
+// TODO get polymer elements lazily
+// TODO if, while components
+// TODO generate h1, etc code
 
 dependencies {
 	compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlinVersion"

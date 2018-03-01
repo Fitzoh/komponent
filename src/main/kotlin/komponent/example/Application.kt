@@ -2,10 +2,9 @@ package komponent.example
 
 import komponent.core.div
 import komponent.core.on
+import komponent.example.element.CounterButton
 import komponent.example.element.DummyCard
-import komponent.example.element.NotifiableCounter
 import komponent.example.element.dummyCard
-import komponent.polymer.Polymer
 import komponent.polymer.behavior.onSelectedChanged
 import komponent.polymer.element.AppDrawerLayoutElement
 import komponent.polymer.element.IronSelectorElement
@@ -26,7 +25,6 @@ import kotlin.dom.addClass
 
 fun main(args: Array<String>) {
 	defineElements()
-	Polymer.install()
 	renderApplication()
 }
 
@@ -82,5 +80,5 @@ private fun renderApplication() {
 
 fun defineElements() {
 	DummyCard.define()
-	NotifiableCounter.define()
+	CounterButton.define()
 }

@@ -5,17 +5,16 @@ import komponent.core.createElement
 import komponent.core.defineElement
 import komponent.core.on
 import komponent.core.style
-import komponent.event.Notification
 import komponent.example.SharedStyles
 import komponent.example.SharedStyles.accent
 import komponent.polymer.element.paperButton
 import org.w3c.dom.HTMLElement
 import kotlin.dom.addClass
 
-abstract class NotifiableCounter : CustomElement() {
+abstract class CounterButton : CustomElement() {
 	companion object {
-		const val tag = "notifiable-counter"
-		fun define() = defineElement(tag, NotifiableCounter::class)
+		const val tag = "counter-button"
+		fun define() = defineElement(tag, CounterButton::class)
 	}
 
 	private var count by property(0)
@@ -28,11 +27,10 @@ abstract class NotifiableCounter : CustomElement() {
 				raised = true
 
 				// Change button text when count changes
-				subscribe(::count) { textContent = "Show notification $it" }
+				subscribe(::count) { textContent = "Current count is : $it" }
 
-				// Show notification on click and increment counter
+				// Increment counter on click
 				on("click") {
-					Notification("This is the notification n°$count").send()
 					count += 1
 				}
 			}
@@ -45,4 +43,4 @@ abstract class NotifiableCounter : CustomElement() {
 
 }
 
-fun HTMLElement.notifiableCounter(init: (NotifiableCounter.() -> Unit)? = null) = createElement(NotifiableCounter.tag, this, init)
+fun HTMLElement.counterButton(init: (CounterButton.() -> Unit)? = null) = createElement(CounterButton.tag, this, init)

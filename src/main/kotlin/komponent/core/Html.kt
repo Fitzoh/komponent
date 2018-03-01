@@ -12,6 +12,7 @@ import org.w3c.dom.events.Event
 import org.w3c.dom.events.EventTarget
 import kotlin.browser.document
 
+
 fun <T : HTMLElement> createElement(name: String,
 									parent: HTMLElement? = null,
 									init: (T.() -> Unit)? = null): T {
@@ -23,6 +24,7 @@ fun <T : HTMLElement> createElement(name: String,
 
 fun HTMLElement.insert(vararg elements: HTMLElement) = elements.forEach { this.insertBefore(it, null) }
 
+// TODO auto generate those
 fun HTMLElement.div(init: (HTMLDivElement.() -> Unit)) = createElement("div", this, init)
 fun HTMLElement.span(init: (HTMLSpanElement.() -> Unit)) = createElement("span", this, init)
 fun HTMLElement.a(init: (HTMLAnchorElement.() -> Unit)) = createElement("a", this, init)

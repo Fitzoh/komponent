@@ -5,7 +5,7 @@ import komponent.core.PropertyCallbackDelegate
 import komponent.core.Subscription
 import komponent.core.fromCamelToDashCase
 import komponent.core.lazy
-import komponent.property.Property
+import komponent.core.Property
 import org.w3c.dom.HTMLElement
 
 abstract external class PolymerElement : HTMLElement

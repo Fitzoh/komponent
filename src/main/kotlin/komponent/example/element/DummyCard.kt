@@ -34,8 +34,8 @@ abstract class DummyCard : CustomElement() {
 	companion object {
 		const val tag = "dummy-card"
 		fun define() = defineElement(tag, DummyCard::class)
-
 		init {
+			println("hello")
 			observedAttributes<DummyCard>("heading", "number")
 		}
 	}
@@ -55,13 +55,11 @@ abstract class DummyCard : CustomElement() {
 			h1 {
 				subscribe(::heading) { textContent = it }
 			}
-			notifiableCounter {}
-			p {
-				textContent = """
-							|Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.
-							|Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.
-							|Cu mei vide viris gloriatur, at populo eripuit sit.
-							|""".trimMargin()
+			val text = p {}
+			counterButton {
+				onCountChanged = {
+					text.textContent =  "Count received from child : $it"
+				}
 			}
 
 			// CSS

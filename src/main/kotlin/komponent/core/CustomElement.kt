@@ -1,7 +1,5 @@
 package komponent.core
 
-import komponent.property.MutableProperty
-import komponent.property.Prop
 import org.w3c.dom.Element
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.OPEN

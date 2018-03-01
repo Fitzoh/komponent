@@ -1,6 +1,4 @@
-package komponent.property
-
-import komponent.core.Subscription
+package komponent.core
 
 class Prop<T>(initialValue: T) : MutableProperty<T> {
 

@@ -1,6 +1,5 @@
 package komponent.core
 
-import komponent.property.Property
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
