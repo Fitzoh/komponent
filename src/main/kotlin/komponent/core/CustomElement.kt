@@ -28,6 +28,15 @@ abstract class CustomElement : HTMLElement() {
 		this.asDynamic()[camelCasedName] = newValue
 	}
 
+	@JsName("connectedCallback")
+	protected fun connectedCallback() {}
+
+	@JsName("disconnectedCallback")
+	protected fun disconnectedCallback() {}
+
+	@JsName("adoptedCallback")
+	protected fun adoptedCallback() {}
+
 	protected abstract class ShadowRootBuilder : HTMLElement()
 
 	protected fun render(init: ShadowRootBuilder.() -> Unit) {
@@ -38,7 +47,7 @@ abstract class CustomElement : HTMLElement() {
 
 	private class ShadowRootInit(override var mode: ShadowRootMode?) : org.w3c.dom.ShadowRootInit
 
-	protected fun <T> property(initialValue: T) = PropertyLoader(initialValue)
+	protected fun <T> property(initialValue: T, reflectToAttributes: Boolean = false) = PropertyLoader(initialValue, reflectToAttributes)
 
 	protected fun <T> propertyCallback(property: KProperty0<T>) = PropertyCallbackDelegate(getMutableProperty(property))
 
@@ -52,19 +61,25 @@ abstract class CustomElement : HTMLElement() {
 		return delegate.delegate as MutableProperty<T>
 	}
 
-	protected inner class PropertyLoader<T>(private val initialValue: T) {
+	protected inner class PropertyLoader<T>(private val initialValue: T,
+											private val reflectToAttributes: Boolean) {
 		operator fun provideDelegate(thisRef: CustomElement, prop: KProperty<*>): ReadWriteProperty<CustomElement, T> {
-			val delegate = PropertyDelegate(Prop(initialValue))
+			val delegate = PropertyDelegate(Prop(initialValue), reflectToAttributes)
 			delegatesMap[prop.name] = delegate
 			return delegate
 		}
 	}
 
-	private class PropertyDelegate<T>(val delegate: MutableProperty<T>): ReadWriteProperty<CustomElement, T> {
+	private class PropertyDelegate<T>(val delegate: Prop<T>,
+									  private val reflectToAttributes: Boolean): ReadWriteProperty<CustomElement, T> {
+
 		override fun getValue(thisRef: CustomElement, property: KProperty<*>): T {
 			return delegate.get()
 		}
 		override fun setValue(thisRef: CustomElement, property: KProperty<*>, value: T) {
+			if (reflectToAttributes) {
+				thisRef.setAttribute(property.name, value.toString())
+			}
 			delegate.set(value)
 		}
 	}
