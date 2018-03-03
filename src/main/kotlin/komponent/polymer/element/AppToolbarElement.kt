@@ -9,10 +9,10 @@ fun HTMLElement.appToolbar(init: (AppToolbarElement.() -> Unit)? = null) = creat
 
 var AppToolbarElement.mainTitle: HTMLElement
 	get() = throw UnsupportedOperationException()
-	set(element) = element.setAttribute("main-title", "")
+	set(element) = element.setAttribute("main-heading", "")
 var AppToolbarElement.condensedTitle: HTMLElement
 	get() = throw UnsupportedOperationException()
-	set(element) = element.setAttribute("condensed-title", "")
+	set(element) = element.setAttribute("condensed-heading", "")
 var AppToolbarElement.bottomItem: HTMLElement
 	get() = throw UnsupportedOperationException()
 	set(element) = element.setAttribute("bottom-item", "")

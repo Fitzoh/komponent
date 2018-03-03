@@ -23,14 +23,15 @@ repositories {
 	jcenter()
 }
 
+// TODO if, for
 // TODO find better typed CSS library
 // TODO get polymer elements lazily
 // TODO if, while components
 // TODO generate h1, etc code
+// TODO layout vertical / horizontal
 
 dependencies {
 	compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlinVersion"
-	compile 'xyz.nulldev:aza-kotlin-css-js:1.01'
 }
 
 task assembleWeb(type: Sync) {

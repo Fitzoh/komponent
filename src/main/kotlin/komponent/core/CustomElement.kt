@@ -28,7 +28,9 @@ abstract class CustomElement : HTMLElement() {
 		this.asDynamic()[camelCasedName] = newValue
 	}
 
-	protected fun render(init: HTMLElement.() -> Unit) {
+	protected abstract class ShadowRootBuilder : HTMLElement()
+
+	protected fun render(init: ShadowRootBuilder.() -> Unit) {
 		val shadowRoot = attachShadow(ShadowRootInit(ShadowRootMode.OPEN))
 		js("var forwarder = { insertBefore: function(node) { shadowRoot.appendChild(node); } };")
 		js("init(forwarder);")

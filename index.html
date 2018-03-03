@@ -10,6 +10,7 @@
 	<script src="bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 	<script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
 
+	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 	<link rel="import" href="icons.html">
 
 	<!-- Elements -->
@@ -19,72 +20,32 @@
 	<link rel="import" href="bower_components/app-layout/app-header-layout/app-header-layout.html">
 	<link rel="import" href="bower_components/app-layout/app-header/app-header.html">
 	<link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
+	<link rel="import" href="bower_components/iron-icon/iron-icon.html">
 	<link rel="import" href="bower_components/iron-pages/iron-pages.html">
 	<link rel="import" href="bower_components/iron-selector/iron-selector.html">
 	<link rel="import" href="bower_components/paper-button/paper-button.html">
 	<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
 	<link rel="import" href="bower_components/paper-input/paper-input.html">
-	<link rel="import" href="bower_components/paper-item/paper-item.html">
+	<link rel="import" href="bower_components/paper-item/paper-icon-item.html">
 	<link rel="import" href="bower_components/paper-toast/paper-toast.html">
 	<link rel="import" href="bower_components/paper-styles/element-styles/paper-material-styles.html">
 
 	<custom-style>
-		<style include="paper-material-styles">
+		<style>
 			body {
 				margin: 0;
-				font-family: 'Roboto', 'Noto', sans-serif;
-				line-height: 1.5;
-				min-height: 100vh;
-				background-color: #eeeeee;
-
-				--dark-primary-color:       #455A64;
-				--default-primary-color:    #607D8B;
-				--light-primary-color:      #CFD8DC;
-				--text-primary-color:       #FFFFFF;
-				--accent-color:             #009688;
-				--primary-background-color: #CFD8DC;
-				--primary-text-color:       #212121;
-				--secondary-text-color:     #757575;
-				--disabled-text-color:      #BDBDBD;
-				--divider-color:            #BDBDBD;
-			}
-
-			app-drawer-layout:not([narrow]) [drawer-toggle] {
-				display: none;
-			}
-
-			app-header {
-				color: #fff;
-				background-color: var(--default-primary-color);
-			}
-
-			app-drawer-layout {
-				--app-drawer-layout-content-transition: margin 0.2s;
-			}
-
-			app-header paper-icon-button {
-				--paper-icon-button-ink-color: white;
-			}
-
-			app-drawer {
-				--app-drawer-content-container: {
-					background-color: #eee;
-				};
-			}
-
-			.drawer-list {
-				margin-top: 80px;
-			}
-
-			.drawer-list paper-item {
-				cursor: pointer;
+				color: #3C4043;
+				background-color: #eee;
+				font-family: 'Lato', 'Roboto', 'Noto', sans-serif;
+				font-size: 16px;
+				line-height: 24px;
 			}
 		</style>
 	</custom-style>
 </head>
 <body>
+<my-app></my-app>
 <script type="text/javascript" src="js/kotlin.js"></script>
-<script type="text/javascript" src="js/AzaKotlinCSS-JS_main.js"></script>
 <script type="text/javascript" src="js/komponent.js"></script>
 </body>
 </html>

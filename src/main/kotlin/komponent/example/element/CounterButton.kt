@@ -4,12 +4,9 @@ import komponent.core.CustomElement
 import komponent.core.createElement
 import komponent.core.defineElement
 import komponent.core.on
-import komponent.core.style
-import komponent.example.SharedStyles
-import komponent.example.SharedStyles.accent
+import komponent.example.Styles
 import komponent.polymer.element.paperButton
 import org.w3c.dom.HTMLElement
-import kotlin.dom.addClass
 
 abstract class CounterButton : CustomElement() {
 	companion object {
@@ -23,20 +20,15 @@ abstract class CounterButton : CustomElement() {
 	init {
 		render {
 			paperButton {
-				addClass(SharedStyles.accentClass)
-				raised = true
+				Styles.accentBackground(this)
 
 				// Change button text when count changes
-				subscribe(::count) { textContent = "Current count is : $it" }
+				subscribe(::count) { textContent = "Increase ($it)" }
 
 				// Increment counter on click
 				on("click") {
 					count += 1
 				}
-			}
-
-			style {
-				accent()
 			}
 		}
 	}
