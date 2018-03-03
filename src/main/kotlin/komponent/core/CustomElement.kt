@@ -10,7 +10,7 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 import kotlin.reflect.KProperty0
 
-abstract class CustomElement : HTMLElement() {
+abstract class CustomElement : HTMLElement {
 
 	protected companion object {
 		inline fun <reified T : CustomElement> observedAttributes(vararg attributes: String) {
@@ -21,6 +21,12 @@ abstract class CustomElement : HTMLElement() {
 	}
 
 	private val delegatesMap = hashMapOf<String, PropertyDelegate<*>>()
+
+	constructor(createShadowRoot: Boolean = true) : super() {
+		if (createShadowRoot) {
+			attachShadow(ShadowRootInit(ShadowRootMode.OPEN))
+		}
+	}
 
 	@JsName("attributeChangedCallback")
 	private fun attributeChangedCallback(name: String, oldValue: dynamic, newValue: dynamic) {
@@ -37,10 +43,8 @@ abstract class CustomElement : HTMLElement() {
 	@JsName("adoptedCallback")
 	protected fun adoptedCallback() {}
 
-	protected abstract class ShadowRootBuilder : HTMLElement()
-
-	protected fun render(init: ShadowRootBuilder.() -> Unit) {
-		val shadowRoot = attachShadow(ShadowRootInit(ShadowRootMode.OPEN))
+	protected fun render(init: HTMLElement.() -> Unit) {
+		val shadowRoot = this.shadowRoot ?: throw IllegalArgumentException("Element has no ShadowRoot")
 		js("var forwarder = { insertBefore: function(node) { shadowRoot.appendChild(node); } };")
 		js("init(forwarder);")
 	}
