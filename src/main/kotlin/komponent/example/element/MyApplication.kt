@@ -35,7 +35,7 @@ data class Page(val icon: String,
 abstract class MyApplication : CustomElement() {
 	companion object {
 		const val tag = "my-app"
-		fun define() = defineElement(tag, MyApplication::class)
+		fun define() = defineElement<MyApplication>(tag)
 	}
 
 	private lateinit var menuButton: PaperIconButtonElement

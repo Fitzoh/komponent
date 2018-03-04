@@ -11,7 +11,7 @@ import org.w3c.dom.HTMLElement
 abstract class CounterButton : CustomElement() {
 	companion object {
 		const val tag = "counter-button"
-		fun define() = defineElement(tag, CounterButton::class)
+		fun define() = defineElement<CounterButton>(tag)
 	}
 
 	private var count by property(0)

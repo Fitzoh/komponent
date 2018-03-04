@@ -1,12 +1,10 @@
 package komponent.core
 
-import org.w3c.dom.Element
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.OPEN
 import org.w3c.dom.ShadowRootMode
 import kotlin.browser.window
 import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 import kotlin.reflect.KProperty0
 
@@ -90,6 +88,6 @@ abstract class CustomElement : HTMLElement {
 
 }
 
-fun <T : Element> defineElement(name: String, constructor: KClass<T>) {
-	window.customElements.define(name, constructor.js.unsafeCast<() -> dynamic>())
+inline fun <reified T : CustomElement> defineElement(tag: String) {
+	window.customElements.define(tag, T::class.js.unsafeCast<() -> dynamic>())
 }

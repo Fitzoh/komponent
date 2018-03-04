@@ -13,7 +13,7 @@ abstract class DummyCard : CustomElement() {
 
 	companion object {
 		const val tag = "dummy-card"
-		fun define() = defineElement(tag, DummyCard::class)
+		fun define() = defineElement<DummyCard>(tag)
 		init {
 			observedAttributes<DummyCard>("heading", "number")
 		}
