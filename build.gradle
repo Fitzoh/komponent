@@ -27,6 +27,7 @@ repositories {
 // TODO find better typed CSS library
 // TODO use TagConsumer and remove hack in CustomElement
 // TODO get polymer elements lazily
+// TODO dependencies between elements
 // TODO if, while components
 // TODO generate h1, etc code
 // TODO layout vertical / horizontal

@@ -4,7 +4,7 @@ interface Property<out T> {
 
 	fun get(): T
 
-	fun subscribe(listener: (T) -> Unit): Subscription
+	fun subscribe(listener: Listener<T>): Subscription
 
 }
 

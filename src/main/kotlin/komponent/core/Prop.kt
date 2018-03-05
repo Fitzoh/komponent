@@ -3,11 +3,11 @@ package komponent.core
 class Prop<T>(initialValue: T) : MutableProperty<T> {
 
 	private var value = initialValue
-	private val listeners = LinkedHashSet<(T) -> Unit>()
+	private val listeners = LinkedHashSet<Listener<T>>()
 
 	override fun get(): T = value
 
-	override fun subscribe(listener: (T) -> Unit): Subscription {
+	override fun subscribe(listener: Listener<T>): Subscription {
 		listeners.add(listener)
 		listener(get())
 		return object : Subscription {

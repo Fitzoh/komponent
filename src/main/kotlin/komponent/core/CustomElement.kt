@@ -29,30 +29,34 @@ abstract class CustomElement : HTMLElement {
 	}
 
 	@JsName("attributeChangedCallback")
-	private fun attributeChangedCallback(name: String, oldValue: dynamic, newValue: dynamic) {
+	protected open fun attributeChangedCallback(name: String, oldValue: dynamic, newValue: dynamic) {
 		val camelCasedName = name.fromDashToCamelCase()
 		this.asDynamic()[camelCasedName] = newValue
 	}
 
 	@JsName("connectedCallback")
-	protected fun connectedCallback() {
+	protected open fun connectedCallback() {
 		if (renders) {
 			val shadowRoot = shadowRoot!!
 			val rendering: (HTMLElement) -> Unit = { renderIn(it) }
-			js("var forwarder = { insertBefore: function(node) { shadowRoot.appendChild(node); } };")
+			js("var forwarder = {};")
+			js("forwarder.insertBefore = function(node) { return shadowRoot.appendChild(node); }")
+			js("forwarder.hasChildNodes = function() { return shadowRoot.hasChildNodes(); }")
+			js("forwarder.removeChild = function(child) { return shadowRoot.removeChild(child); }")
+			js("Object.defineProperty(forwarder, 'lastChild', { get: function() { return shadowRoot.lastChild; } });")
 			js("rendering(forwarder);")
 		}
 	}
 
 	@JsName("disconnectedCallback")
-	protected fun disconnectedCallback() {
+	protected open fun disconnectedCallback() {
 	}
 
 	@JsName("adoptedCallback")
-	protected fun adoptedCallback() {
+	protected open fun adoptedCallback() {
 	}
 
-	protected abstract fun HTMLElement.render()
+	protected open fun HTMLElement.render() {}
 
 	private fun renderIn(parent: HTMLElement) {
 		parent.render()

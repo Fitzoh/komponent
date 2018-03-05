@@ -6,6 +6,7 @@ import komponent.core.defineElement
 import komponent.core.div
 import komponent.core.on
 import komponent.core.style
+import komponent.core.switch
 import komponent.core.text
 import komponent.example.Icons
 import komponent.example.Styles
@@ -20,7 +21,6 @@ import komponent.polymer.element.customStyle
 import komponent.polymer.element.drawer
 import komponent.polymer.element.header
 import komponent.polymer.element.icon
-import komponent.polymer.element.ironPages
 import komponent.polymer.element.ironSelector
 import komponent.polymer.element.mainTitle
 import komponent.polymer.element.paperIconButton
@@ -122,17 +122,22 @@ abstract class MyApplication : CustomElement() {
 					}
 				}
 
-				val ironPages = ironPages<DummyCard> {
-					pages.forEach {
-						dummyCard { heading = it.title; number = it.number }
+				val pageSwitch = switch<Int> { index ->
+					if (index != null) {
+						pages.getOrNull(index)?.let { page ->
+							dummyCard { heading = page.title; number = page.number }
+						}
 					}
 				}
-				tabSelector.onSelectedChanged = { ironPages.selected = it }
+
+				tabSelector.onSelectedChanged = {
+					pageSwitch.value = it as Int
+				}
 			}
 		}
 
 		// Open first tab
-		tabSelector.selected = "0"
+		tabSelector.selected = 0
 
 		// Handle drawer layout menu button
 		menuButton.on("click") {
