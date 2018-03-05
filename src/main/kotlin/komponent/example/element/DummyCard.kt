@@ -22,9 +22,8 @@ abstract class DummyCard : CustomElement() {
 	var heading: String by property("Heading")
 	var number: Int by property(0)
 
-	init {
-		render {
-			style { textContent = """
+	override fun HTMLElement.render() {
+		style { textContent = """
 				|:host {
 				|	display: block;
 				|	margin: 16px;
@@ -33,35 +32,33 @@ abstract class DummyCard : CustomElement() {
 				|	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
 				|}
 			""".trimMargin()
-			}
+		}
 
-			div {
-				subscribe(::number) { textContent = it.toString() }
-				style.apply {
-					display = "inline-block"
-					width = "64px"
-					height = "64px"
-					textAlign = "center"
-					borderRadius = "50%"
-					backgroundColor = "#DDDDDD"
-					fontSize = "30px"
-					lineHeight = "64px"
-				}
+		div {
+			subscribe(::number) { textContent = it.toString() }
+			style.apply {
+				display = "inline-block"
+				width = "64px"
+				height = "64px"
+				textAlign = "center"
+				borderRadius = "50%"
+				backgroundColor = "#DDDDDD"
+				fontSize = "30px"
+				lineHeight = "64px"
 			}
+		}
 
-			h1 {
-				subscribe(::heading) { textContent = it }
-			}
+		h1 {
+			subscribe(::heading) { textContent = it }
+		}
 
-			val text = p {}
-			counterButton {
-				onCountChanged = {
-					text.textContent =  "Count received from child : $it"
-				}
+		val text = p {}
+		counterButton {
+			onCountChanged = {
+				text.textContent =  "Count received from child : $it"
 			}
 		}
 	}
-
 }
 
 fun HTMLElement.dummyCard(init: (DummyCard.() -> Unit)? = null) = createElement(DummyCard.tag, this, init)

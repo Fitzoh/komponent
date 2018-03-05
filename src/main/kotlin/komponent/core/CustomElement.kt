@@ -18,10 +18,12 @@ abstract class CustomElement : HTMLElement {
 		}
 	}
 
+	private val renders: Boolean
 	private val delegatesMap = hashMapOf<String, PropertyDelegate<*>>()
 
-	constructor(createShadowRoot: Boolean = true) : super() {
-		if (createShadowRoot) {
+	constructor(renders: Boolean = true) : super() {
+		this.renders = renders
+		if (renders) {
 			attachShadow(ShadowRootInit(ShadowRootMode.OPEN))
 		}
 	}
@@ -33,18 +35,27 @@ abstract class CustomElement : HTMLElement {
 	}
 
 	@JsName("connectedCallback")
-	protected fun connectedCallback() {}
+	protected fun connectedCallback() {
+		if (renders) {
+			val shadowRoot = shadowRoot!!
+			val rendering: (HTMLElement) -> Unit = { renderIn(it) }
+			js("var forwarder = { insertBefore: function(node) { shadowRoot.appendChild(node); } };")
+			js("rendering(forwarder);")
+		}
+	}
 
 	@JsName("disconnectedCallback")
-	protected fun disconnectedCallback() {}
+	protected fun disconnectedCallback() {
+	}
 
 	@JsName("adoptedCallback")
-	protected fun adoptedCallback() {}
+	protected fun adoptedCallback() {
+	}
 
-	protected fun render(init: HTMLElement.() -> Unit) {
-		val shadowRoot = this.shadowRoot ?: throw IllegalArgumentException("Element has no ShadowRoot")
-		js("var forwarder = { insertBefore: function(node) { shadowRoot.appendChild(node); } };")
-		js("init(forwarder);")
+	protected abstract fun HTMLElement.render()
+
+	private fun renderIn(parent: HTMLElement) {
+		parent.render()
 	}
 
 	private class ShadowRootInit(override var mode: ShadowRootMode?) : org.w3c.dom.ShadowRootInit
@@ -73,11 +84,12 @@ abstract class CustomElement : HTMLElement {
 	}
 
 	private class PropertyDelegate<T>(val delegate: Prop<T>,
-									  private val reflectToAttributes: Boolean): ReadWriteProperty<CustomElement, T> {
+									  private val reflectToAttributes: Boolean) : ReadWriteProperty<CustomElement, T> {
 
 		override fun getValue(thisRef: CustomElement, property: KProperty<*>): T {
 			return delegate.get()
 		}
+
 		override fun setValue(thisRef: CustomElement, property: KProperty<*>, value: T) {
 			if (reflectToAttributes) {
 				thisRef.setAttribute(property.name, value.toString())

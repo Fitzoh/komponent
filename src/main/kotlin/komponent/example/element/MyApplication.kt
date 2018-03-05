@@ -42,19 +42,17 @@ abstract class MyApplication : CustomElement() {
 	private lateinit var drawerLayout: AppDrawerLayoutElement
 	private lateinit var tabSelector: IronSelectorElement<HTMLDivElement>
 
-	init {
-		// Stub pages
+	override fun HTMLElement.render() {
 		val pages = listOf(
 				Page(Icons.one, "First view", 1),
 				Page(Icons.two, "Second view", 2),
 				Page(Icons.three, "Last view", 3)
 		)
 
-		render {
-			// Setting polymer CSS properties and mixins
-			customStyle {
-				style {
-					textContent = """
+		// Setting polymer CSS properties and mixins
+		customStyle {
+			style {
+				textContent = """
 						|:host {
 						|   --app-drawer-content-container: {
 						|   	background-color: #eee;
@@ -91,61 +89,59 @@ abstract class MyApplication : CustomElement() {
 						|	background: none;
 						|}
 					""".trimMargin()
+			}
+		}
+
+		appHeaderLayout {
+			header {
+				Styles.primaryBackground(this)
+				fixed = true
+				shadow = true
+				appToolbar {
+					menuButton = paperIconButton { icon = Icons.menu }
+					mainTitle = div { textContent = "Komponent" }
 				}
 			}
 
-			appHeaderLayout {
-				header {
-					Styles.primaryBackground(this)
-					fixed = true
-					shadow = true
-					appToolbar {
-						menuButton = paperIconButton { icon = Icons.menu }
-						mainTitle = div { textContent = "Komponent" }
-					}
-				}
-
-				drawerLayout = appDrawerLayout {
-					drawer {
-						div {
-							style.apply {
-								marginTop = "80px"
-								marginLeft = "16px"
-							}
-							tabSelector = ironSelector {
-								pages.forEach { page ->
-									paperIconItem {
-										style.cursor = "pointer"
-										icon = page.icon
-										text(page.title)
-									}
+			drawerLayout = appDrawerLayout {
+				drawer {
+					div {
+						style.apply {
+							marginTop = "80px"
+							marginLeft = "16px"
+						}
+						tabSelector = ironSelector {
+							pages.forEach { page ->
+								paperIconItem {
+									style.cursor = "pointer"
+									icon = page.icon
+									text(page.title)
 								}
 							}
 						}
 					}
+				}
 
-					val ironPages = ironPages<DummyCard> {
-						pages.forEach {
-							dummyCard { heading = it.title; number = it.number }
-						}
+				val ironPages = ironPages<DummyCard> {
+					pages.forEach {
+						dummyCard { heading = it.title; number = it.number }
 					}
-					tabSelector.onSelectedChanged = { ironPages.selected = it }
 				}
-			}
-
-			// Open first tab
-			tabSelector.selected = "0"
-
-			// Handle drawer layout menu button
-			menuButton.on("click") {
-				if (drawerLayout.forceNarrow || !drawerLayout.narrow) {
-					drawerLayout.forceNarrow = !drawerLayout.forceNarrow
-				} else {
-					drawerLayout.drawer.toggle()
-				}
+				tabSelector.onSelectedChanged = { ironPages.selected = it }
 			}
 		}
 
+		// Open first tab
+		tabSelector.selected = "0"
+
+		// Handle drawer layout menu button
+		menuButton.on("click") {
+			if (drawerLayout.forceNarrow || !drawerLayout.narrow) {
+				drawerLayout.forceNarrow = !drawerLayout.forceNarrow
+			} else {
+				drawerLayout.drawer.toggle()
+			}
+		}
 	}
 }
 

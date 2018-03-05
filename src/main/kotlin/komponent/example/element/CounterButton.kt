@@ -17,22 +17,19 @@ abstract class CounterButton : CustomElement() {
 	private var count by property(0)
 	var onCountChanged by propertyCallback(::count)
 
-	init {
-		render {
-			paperButton {
-				Styles.accentBackground(this)
+	override fun HTMLElement.render() {
+		paperButton {
+			Styles.accentBackground(this)
 
-				// Change button text when count changes
-				subscribe(::count) { textContent = "Increase ($it)" }
+			// Change button text when count changes
+			subscribe(::count) { textContent = "Increase ($it)" }
 
-				// Increment counter on click
-				on("click") {
-					count += 1
-				}
+			// Increment counter on click
+			on("click") {
+				count += 1
 			}
 		}
 	}
-
 }
 
 fun HTMLElement.counterButton(init: (CounterButton.() -> Unit)? = null) = createElement(CounterButton.tag, this, init)

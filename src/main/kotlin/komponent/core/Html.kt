@@ -14,10 +14,10 @@ import org.w3c.dom.events.EventTarget
 import kotlin.browser.document
 
 
-fun <T : HTMLElement> createElement(name: String,
+fun <T : HTMLElement> createElement(tag: String,
 									parent: HTMLElement? = null,
 									init: (T.() -> Unit)? = null): T {
-	val element: T = document.createElement(name) as T
+	val element: T = document.createElement(tag) as T
 	init?.let { element.init() }
 	parent?.insert(element)
 	return element
