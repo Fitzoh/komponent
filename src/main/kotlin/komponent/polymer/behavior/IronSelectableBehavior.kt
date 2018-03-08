@@ -2,7 +2,7 @@ package komponent.polymer.behavior
 
 import komponent.core.Listener
 import komponent.polymer.element.asPolymerElement
-import komponent.polymer.element.propertyCallbackDelegate
+import komponent.polymer.element.observableCallbackDelegate
 import org.w3c.dom.HTMLElement
 
 external interface IronSelectableBehavior<out T> {
@@ -39,11 +39,11 @@ external interface IronSelectableBehavior<out T> {
 
 
 var <T> IronSelectableBehavior<T>.onItemsChanged: Listener<List<T>>?
-	get() = throw UnsupportedOperationException("Can not get listener. Update the associated property to call it instead.")
-	set(value) = asPolymerElement().propertyCallbackDelegate<List<T>>("items").setValue(this, ::items, value)
+	get() = throw UnsupportedOperationException("Can not get listener. Update the associated value to call it instead.")
+	set(value) = asPolymerElement().observableCallbackDelegate<List<T>>("items").setValue(this, ::items, value)
 var <T> IronSelectableBehavior<T>.onSelectedChanged: Listener<Any?>?
-	get() = throw UnsupportedOperationException("Can not get listener. Update the associated property to call it instead.")
-	set(value) = asPolymerElement().propertyCallbackDelegate<Any?>("selected").setValue(this, ::selected, value)
+	get() = throw UnsupportedOperationException("Can not get listener. Update the associated value to call it instead.")
+	set(value) = asPolymerElement().observableCallbackDelegate<Any?>("selected").setValue(this, ::selected, value)
 var <T> IronSelectableBehavior<T>.onSelectedItemChanged: Listener<T?>?
-	get() = throw UnsupportedOperationException("Can not get listener. Update the associated property to call it instead.")
-	set(value) = asPolymerElement().propertyCallbackDelegate<T?>("selectedItem").setValue(this, ::selectedItem, value)
+	get() = throw UnsupportedOperationException("Can not get listener. Update the associated value to call it instead.")
+	set(value) = asPolymerElement().observableCallbackDelegate<T?>("selectedItem").setValue(this, ::selectedItem, value)

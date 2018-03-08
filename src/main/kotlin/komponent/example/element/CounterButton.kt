@@ -14,8 +14,8 @@ abstract class CounterButton : CustomElement() {
 		fun define() = defineElement<CounterButton>(tag)
 	}
 
-	private var count by property(0)
-	var onCountChanged by propertyCallback(::count)
+	private var count by observable(0)
+	var onCountChanged by observableCallback(::count)
 
 	override fun HTMLElement.render() {
 		paperButton {

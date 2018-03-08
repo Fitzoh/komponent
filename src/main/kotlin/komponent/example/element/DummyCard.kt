@@ -19,8 +19,8 @@ abstract class DummyCard : CustomElement() {
 		}
 	}
 
-	var heading: String by property("Heading")
-	var number: Int by property(0)
+	var heading: String by observable("Heading")
+	var number: Int by observable(0)
 
 	override fun HTMLElement.render() {
 		style { textContent = """

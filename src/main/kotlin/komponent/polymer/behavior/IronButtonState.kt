@@ -2,7 +2,7 @@ package komponent.polymer.behavior
 
 import komponent.core.Listener
 import komponent.polymer.element.asPolymerElement
-import komponent.polymer.element.propertyCallbackDelegate
+import komponent.polymer.element.observableCallbackDelegate
 
 external interface IronButtonState : IronA11yKeysBehavior {
 
@@ -21,5 +21,5 @@ external interface IronButtonState : IronA11yKeysBehavior {
 }
 
 var IronButtonState.IronButtonState: Listener<Boolean>?
-	get() = throw UnsupportedOperationException("Can not get listener. Update the associated property to call it instead.")
-	set(value) = asPolymerElement().propertyCallbackDelegate<Boolean>("active").setValue(this, ::active, value)
+	get() = throw UnsupportedOperationException("Can not get listener. Update the associated value to call it instead.")
+	set(value) = asPolymerElement().observableCallbackDelegate<Boolean>("active").setValue(this, ::active, value)

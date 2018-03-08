@@ -1,6 +1,20 @@
 package komponent.core
 
-class Prop<T>(initialValue: T) : MutableProperty<T> {
+interface Observable<out T> {
+
+	fun get(): T
+
+	fun subscribe(listener: Listener<T>): Subscription
+
+}
+
+interface Subscription {
+
+	fun cancel()
+
+}
+
+class ObservableImpl<T>(initialValue: T) : Observable<T> {
 
 	private var value = initialValue
 	private val listeners = LinkedHashSet<Listener<T>>()
@@ -17,9 +31,8 @@ class Prop<T>(initialValue: T) : MutableProperty<T> {
 		}
 	}
 
-	override fun set(newValue: T) {
-		val oldValue = value
-		if (oldValue != newValue) {
+	fun set(newValue: T) {
+		if (value != newValue) {
 			value = newValue
 			listeners.forEach { it(newValue) }
 		}

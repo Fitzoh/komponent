@@ -35,7 +35,7 @@ abstract external class AppDrawerElement : PolymerElement {
 }
 
 var AppDrawerElement.onOpenedChanged: Listener<Boolean>?
-	get() = throw UnsupportedOperationException("Can not get listener. Update the associated property to call it instead.")
-	set(value) = asPolymerElement().propertyCallbackDelegate<Boolean>("opened").setValue(this, ::opened, value)
+	get() = throw UnsupportedOperationException("Can not get listener. Update the associated value to call it instead.")
+	set(value) = asPolymerElement().observableCallbackDelegate<Boolean>("opened").setValue(this, ::opened, value)
 
 fun HTMLElement.appDrawer(init: (AppDrawerElement.() -> Unit)? = null) = createElement("app-drawer", this, init)

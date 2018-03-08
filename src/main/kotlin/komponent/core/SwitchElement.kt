@@ -16,9 +16,9 @@ abstract class SwitchElement<T> : CustomElement() {
 		const val hiddenClass = "k-switch-hidden"
 	}
 
-	var value by property<T?>(null)
-	var cases by property<(HTMLElement.(T?) -> Unit)?>(null)
-	var lazy by property(false)
+	var value by observable<T?>(null)
+	var cases by observable<(HTMLElement.(T?) -> Unit)?>(null)
+	var lazy by observable(false)
 
 	private var currentChildren = emptyList<Node>()
 	private val lazyChildren = hashMapOf<T?, List<Node>>()

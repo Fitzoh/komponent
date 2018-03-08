@@ -18,7 +18,7 @@ abstract class CustomElement(private val renders: Boolean = true) : HTMLElement(
 		}
 	}
 
-	private val delegatesMap = hashMapOf<String, PropertyDelegate<*>>()
+	private val delegatesMap = hashMapOf<String, ObservableDelegate<*>>()
 
 	init {
 		if (renders) {
@@ -63,42 +63,43 @@ abstract class CustomElement(private val renders: Boolean = true) : HTMLElement(
 
 	private class ShadowRootInit(override var mode: ShadowRootMode?) : org.w3c.dom.ShadowRootInit
 
-	protected fun <T> property(initialValue: T, reflectToAttributes: Boolean = false) = PropertyLoader(initialValue, reflectToAttributes)
+	protected fun <T> observable(initialValue: T, reflectToAttributes: Boolean = false) = ObservableDelegateLoader(initialValue, reflectToAttributes)
 
-	protected fun <T> propertyCallback(property: KProperty0<T>) = PropertyCallbackDelegate(getMutableProperty(property))
+	protected fun <T> observableCallback(property: KProperty0<T>) = ObservableCallbackDelegate(getObservable(property))
 
 	protected fun <T> subscribe(property: KProperty0<T>, listener: Listener<T>): Subscription {
-		return getMutableProperty(property).subscribe(listener)
+		return getObservable(property).subscribe(listener)
 	}
 
-	private fun <T> getMutableProperty(property: KProperty0<T>): MutableProperty<T> {
+	private fun <T> getObservable(property: KProperty0<T>): Observable<T> {
 		val propertyName = property.name
-		val delegate = delegatesMap[propertyName] ?: throw IllegalArgumentException("$propertyName is not a property")
-		return delegate.delegate as MutableProperty<T>
+		val delegate = delegatesMap[propertyName] ?: throw IllegalArgumentException("$propertyName is not observable")
+		return delegate.delegate as Observable<T>
 	}
-	protected inner class PropertyLoader<T>(private val initialValue: T,
-											private val reflectToAttributes: Boolean) {
+
+	protected inner class ObservableDelegateLoader<T>(private val initialValue: T,
+													  private val reflectToAttributes: Boolean) {
 		operator fun provideDelegate(thisRef: CustomElement, prop: KProperty<*>): ReadWriteProperty<CustomElement, T> {
-			val delegate = PropertyDelegate(Prop(initialValue), reflectToAttributes)
+			val delegate = ObservableDelegate(initialValue, reflectToAttributes)
 			delegatesMap[prop.name] = delegate
 			return delegate
 		}
-
 	}
 
-	private class PropertyDelegate<T>(val delegate: Prop<T>,
-									  private val reflectToAttributes: Boolean) : ReadWriteProperty<CustomElement, T> {
+	private class ObservableDelegate<T>(initialValue: T,
+										private val reflectToAttributes: Boolean) : ReadWriteProperty<CustomElement, T> {
+		val delegate = ObservableImpl(initialValue)
 
 		override fun getValue(thisRef: CustomElement, property: KProperty<*>): T {
 			return delegate.get()
 		}
+
 		override fun setValue(thisRef: CustomElement, property: KProperty<*>, value: T) {
 			if (reflectToAttributes) {
 				thisRef.setAttribute(property.name, value.toString())
 			}
 			delegate.set(value)
 		}
-
 	}
 
 }

@@ -1,22 +1,22 @@
 package komponent.polymer.element
 
 import komponent.core.Listener
-import komponent.core.PropertyCallbackDelegate
+import komponent.core.Observable
+import komponent.core.ObservableCallbackDelegate
 import komponent.core.Subscription
 import komponent.core.fromCamelToDashCase
 import komponent.core.lazy
-import komponent.core.Property
 import org.w3c.dom.HTMLElement
 
 abstract external class PolymerElement : HTMLElement
 
-internal fun <T> PolymerElement.propertyCallbackDelegate(name: String): PropertyCallbackDelegate<T> = PropertyCallbackDelegate(property(name))
-private fun <T> PolymerElement.property(name: String): Property<T> = lazy(name) { PolymerProperty(this, name) }
+private fun <T> PolymerElement.observable(name: String): Observable<T> = lazy(name) { PolymerObservable(this, name) }
+internal fun <T> PolymerElement.observableCallbackDelegate(name: String): ObservableCallbackDelegate<T> = ObservableCallbackDelegate(observable(name))
 
 internal fun Any.asPolymerElement(): PolymerElement = this.asDynamic()
 
-private open class PolymerProperty<out T>(protected val delegate: dynamic,
-										  protected val property: String) : Property<T> {
+private open class PolymerObservable<out T>(protected val delegate: dynamic,
+											protected val property: String) : Observable<T> {
 
 	private val listeners = LinkedHashSet<Listener<T>>()
 
