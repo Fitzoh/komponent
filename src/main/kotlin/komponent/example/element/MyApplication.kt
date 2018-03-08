@@ -4,6 +4,7 @@ import komponent.core.CustomElement
 import komponent.core.createElement
 import komponent.core.defineElement
 import komponent.core.div
+import komponent.core.loop
 import komponent.core.on
 import komponent.core.style
 import komponent.core.switch
@@ -111,7 +112,7 @@ abstract class MyApplication : CustomElement() {
 							marginLeft = "16px"
 						}
 						tabSelector = ironSelector {
-							pages.forEach { page ->
+							loop(pages) { page ->
 								paperIconItem {
 									style.cursor = "pointer"
 									icon = page.icon

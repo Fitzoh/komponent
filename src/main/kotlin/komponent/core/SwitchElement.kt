@@ -24,10 +24,6 @@ abstract class SwitchElement<T> : CustomElement() {
 	private val lazyChildren = hashMapOf<T?, List<Node>>()
 
 	override fun HTMLElement.render() {
-		subscribe(::value) { doRender(it, cases) }
-		subscribe(::cases) { resetAndRender () }
-		subscribe(::lazy) { resetAndRender () }
-
 		style { textContent = """
 			|:host {
 			|	display: block;
@@ -38,6 +34,10 @@ abstract class SwitchElement<T> : CustomElement() {
 			|}
 		""".trimMargin()
 		}
+
+		subscribe(::value) { doRender(it, cases) }
+		subscribe(::cases) { resetAndRender () }
+		subscribe(::lazy) { resetAndRender () }
 	}
 
 	private fun HTMLElement.resetAndRender() {

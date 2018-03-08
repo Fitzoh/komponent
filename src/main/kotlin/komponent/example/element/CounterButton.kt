@@ -25,7 +25,7 @@ abstract class CounterButton : CustomElement() {
 			subscribe(::count) { textContent = "Increase ($it)" }
 
 			// Increment counter on click
-			on("click") {
+			on("tap") {
 				count += 1
 			}
 		}
