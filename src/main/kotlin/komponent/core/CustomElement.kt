@@ -8,7 +8,7 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 import kotlin.reflect.KProperty0
 
-abstract class CustomElement : HTMLElement {
+abstract class CustomElement(private val renders: Boolean = true) : HTMLElement() {
 
 	protected companion object {
 		inline fun <reified T : CustomElement> observedAttributes(vararg attributes: String) {
@@ -18,11 +18,9 @@ abstract class CustomElement : HTMLElement {
 		}
 	}
 
-	private val renders: Boolean
 	private val delegatesMap = hashMapOf<String, PropertyDelegate<*>>()
 
-	constructor(renders: Boolean = true) : super() {
-		this.renders = renders
+	init {
 		if (renders) {
 			attachShadow(ShadowRootInit(ShadowRootMode.OPEN))
 		}
@@ -41,9 +39,10 @@ abstract class CustomElement : HTMLElement {
 			val rendering: (HTMLElement) -> Unit = { renderIn(it) }
 			js("var forwarder = {};")
 			js("forwarder.insertBefore = function(node) { return shadowRoot.appendChild(node); }")
-			js("forwarder.hasChildNodes = function() { return shadowRoot.hasChildNodes(); }")
 			js("forwarder.removeChild = function(child) { return shadowRoot.removeChild(child); }")
+			js("Object.defineProperty(forwarder, 'firstChild', { get: function() { return shadowRoot.firstChild; } });")
 			js("Object.defineProperty(forwarder, 'lastChild', { get: function() { return shadowRoot.lastChild; } });")
+			js("Object.defineProperty(forwarder, 'childNodes', { get: function() { return shadowRoot.childNodes; } });")
 			js("rendering(forwarder);")
 		}
 	}
@@ -77,7 +76,6 @@ abstract class CustomElement : HTMLElement {
 		val delegate = delegatesMap[propertyName] ?: throw IllegalArgumentException("$propertyName is not a property")
 		return delegate.delegate as MutableProperty<T>
 	}
-
 	protected inner class PropertyLoader<T>(private val initialValue: T,
 											private val reflectToAttributes: Boolean) {
 		operator fun provideDelegate(thisRef: CustomElement, prop: KProperty<*>): ReadWriteProperty<CustomElement, T> {
@@ -85,6 +83,7 @@ abstract class CustomElement : HTMLElement {
 			delegatesMap[prop.name] = delegate
 			return delegate
 		}
+
 	}
 
 	private class PropertyDelegate<T>(val delegate: Prop<T>,
@@ -93,13 +92,13 @@ abstract class CustomElement : HTMLElement {
 		override fun getValue(thisRef: CustomElement, property: KProperty<*>): T {
 			return delegate.get()
 		}
-
 		override fun setValue(thisRef: CustomElement, property: KProperty<*>, value: T) {
 			if (reflectToAttributes) {
 				thisRef.setAttribute(property.name, value.toString())
 			}
 			delegate.set(value)
 		}
+
 	}
 
 }

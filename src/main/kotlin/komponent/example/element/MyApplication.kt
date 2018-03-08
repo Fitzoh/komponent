@@ -122,11 +122,9 @@ abstract class MyApplication : CustomElement() {
 					}
 				}
 
-				val pageSwitch = switch<Int> { index ->
-					if (index != null) {
-						pages.getOrNull(index)?.let { page ->
-							dummyCard { heading = page.title; number = page.number }
-						}
+				val pageSwitch = switch<Int>(lazy = true) { index ->
+					index?.let { pages.getOrNull(it) }?.let { page ->
+						dummyCard { heading = page.title; number = page.number }
 					}
 				}
 
