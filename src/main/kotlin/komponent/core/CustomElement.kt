@@ -40,7 +40,7 @@ abstract class CustomElement(private val createShadowRoot: Boolean = true) : HTM
 		} else {
 			this
 		}
-		renderIn(receiver)
+		receiver.render()
 	}
 
 	@JsName("disconnectedCallback")
@@ -52,10 +52,6 @@ abstract class CustomElement(private val createShadowRoot: Boolean = true) : HTM
 	}
 
 	protected open fun Node.render() {}
-
-	private fun renderIn(receiver: Node) {
-		receiver.render()
-	}
 
 	private class ShadowRootInit(override var mode: ShadowRootMode?) : org.w3c.dom.ShadowRootInit
 

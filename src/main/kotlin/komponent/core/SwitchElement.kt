@@ -12,7 +12,7 @@ abstract class SwitchElement<T> : CustomElement() {
 	companion object {
 		const val tag = "k-switch"
 		fun define() = defineElement<SwitchElement<*>>(tag)
-		const val hiddenClass = "k-switch-hidden"
+		private const val hiddenClass = "k-switch-hidden"
 	}
 
 	var value by observable<T?>(null)
