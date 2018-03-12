@@ -55,3 +55,9 @@ fun <T> Node.lazy(name: String, supplier: () -> T): T {
 	dyn.__lazy__[name] = value
 	return value
 }
+
+fun appendChildForwarder(forwardTo: (Node) -> Node): Node {
+	val forwarder = js("{}")
+	forwarder.appendChild = forwardTo
+	return forwarder
+}

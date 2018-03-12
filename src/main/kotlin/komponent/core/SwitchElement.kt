@@ -1,89 +1,87 @@
 package komponent.core
 
-import org.w3c.dom.Element
+import org.w3c.dom.HTMLElement
 import org.w3c.dom.Node
-import org.w3c.dom.asList
-import kotlin.dom.addClass
-import kotlin.dom.hasClass
-import kotlin.dom.removeClass
 
-abstract class SwitchElement<T> : CustomElement() {
+abstract class SwitchElement<T> : CustomElement(false) {
 
 	companion object {
 		const val tag = "k-switch"
 		fun define() = defineElement<SwitchElement<*>>(tag)
-		private const val hiddenClass = "k-switch-hidden"
 	}
 
 	var value by observable<T?>(null)
 	var cases by observable<(Node.(T?) -> Unit)?>(null)
 	var lazy by observable(false)
 
-	private var currentChildren = emptyList<Node>()
-	private val lazyChildren = hashMapOf<T?, List<Node>>()
+	private var currentChildren = arrayListOf<Node>()
+	private val lazyChildren = hashMapOf<T?, ArrayList<Pair<Node, String?>>>()
+
+	private val appendChildForwarder = appendChildForwarder(::doAppendChild)
 
 	override fun Node.render() {
-		style { textContent = """
-			|:host {
-			|	display: block;
-			|}
-			|
-			|:host > .$hiddenClass {
-			|	display: none !important;
-			|}
-		""".trimMargin()
-		}
-
-		subscribe(::value) { doRender(it, cases) }
-		subscribe(::cases) { resetAndRender () }
-		subscribe(::lazy) { resetAndRender () }
+		subscribe(::value) { doRender() }
+		subscribe(::cases) { resetAndRender() }
+		subscribe(::lazy) { resetAndRender() }
 	}
 
 	private fun Node.resetAndRender() {
-		currentChildren = emptyList()
 		lazyChildren.clear()
 		removeAllChildren()
-		doRender(value, cases)
+		doRender()
 	}
 
 	private fun Node.removeAllChildren() {
-		// Do not remove first (<style>) child
-		while (firstChild != null && firstChild !== lastChild) {
-			removeChild(lastChild!!)
+		var i = currentChildren.size - 1
+		while (i >= 0) {
+			parentNode!!.removeChild(currentChildren[i--])
 		}
+		currentChildren.clear()
 	}
 
-	private fun Node.doRender(value: T?, cases: (Node.(T?) -> Unit)?) {
+	private fun Node.doRender() {
+		// Remove or hide current children
 		if (lazy) {
-			if (currentChildren.isNotEmpty()) {
-				currentChildren.forEach { (it as? Element)?.addClass(hiddenClass) }
-			}
+			currentChildren.forEach { (it as? HTMLElement)?.style?.display = "none" }
 		} else {
 			removeAllChildren()
 		}
 
-		cases?.let {
+		// Add (back) children for the current value
+		cases?.let { function ->
 			if (lazy) {
 				if (lazyChildren.containsKey(value)) {
-					currentChildren = lazyChildren[value]!!
-					currentChildren.forEach { (it as? Element)?.removeClass(hiddenClass) }
+					val childrenWithDisplay = lazyChildren[value]!!
+					currentChildren = childrenWithDisplay.mapTo(arrayListOf()) { it.first }
+					childrenWithDisplay.forEach { (node, display) ->
+						(node as? HTMLElement)?.let {
+							it.style.display = display!!
+						}
+					}
 				} else {
-					it(value)
-					currentChildren = childNodes.asList().filter { it is Element && !it.hasClass(hiddenClass) }
-					lazyChildren[value] = currentChildren
+					appendChildForwarder.function(value)
+					lazyChildren[value] = currentChildren.mapTo(arrayListOf(), {
+						Pair(it, (it as? HTMLElement)?.style?.display)
+					})
 				}
 			} else {
-				it(value)
+				appendChildForwarder.function(value)
 			}
 		}
+	}
+
+	private fun doAppendChild(child: Node): Node {
+		val node = parentNode!!.insertBefore(child, this)
+		currentChildren.add(node)
+		return node
 	}
 }
 
 fun <T> Node.switch(value: T? = null, lazy: Boolean = false, cases: Node.(T?) -> Unit): SwitchElement<T> {
 	return createElement<SwitchElement<T>>(SwitchElement.tag, this, null).apply {
+		this.lazy = lazy
 		this.value = value
 		this.cases = cases
-		this.lazy = lazy
 	}
 }
 

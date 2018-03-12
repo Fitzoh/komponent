@@ -12,7 +12,7 @@ abstract class LoopElement<T> : CustomElement(false) {
 	var function by observable<(Node.(T) -> Unit)?>(null)
 
 	private val appendChildForwarder = appendChildForwarder(::doAppendChild)
-	private val childrenNodes = arrayListOf<Node>()
+	private val currentChildren = arrayListOf<Node>()
 
 	override fun Node.render() {
 		subscribe(::elements) { doRender() }
@@ -20,11 +20,11 @@ abstract class LoopElement<T> : CustomElement(false) {
 	}
 
 	private fun doRender() {
-		var i = childrenNodes.size - 1
+		var i = currentChildren.size - 1
 		while (i >= 0) {
-			parentNode!!.removeChild(childrenNodes[i--])
+			parentNode!!.removeChild(currentChildren[i--])
 		}
-		childrenNodes.clear()
+		currentChildren.clear()
 
 		function?.let { f ->
 			elements.forEach { appendChildForwarder.f(it) }
@@ -33,7 +33,7 @@ abstract class LoopElement<T> : CustomElement(false) {
 
 	private fun doAppendChild(child: Node): Node {
 		val node = parentNode!!.insertBefore(child, this)
-		childrenNodes.add(node)
+		currentChildren.add(node)
 		return node
 	}
 }
@@ -43,10 +43,4 @@ fun <T> Node.loop(elements: Collection<T> = emptyList(), function: Node.(T) -> U
 		this.function = function
 		this.elements = elements
 	}
-}
-
-fun appendChildForwarder(forwardTo: (Node) -> Node): Node {
-	val forwarder = js("{}")
-	forwarder.appendChild = forwardTo
-	return forwarder
 }
