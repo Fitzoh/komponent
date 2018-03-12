@@ -1,7 +1,6 @@
 package komponent.core
 
 import org.w3c.dom.Element
-import org.w3c.dom.HTMLElement
 import org.w3c.dom.Node
 import org.w3c.dom.asList
 import kotlin.dom.addClass
@@ -17,13 +16,13 @@ abstract class SwitchElement<T> : CustomElement() {
 	}
 
 	var value by observable<T?>(null)
-	var cases by observable<(HTMLElement.(T?) -> Unit)?>(null)
+	var cases by observable<(Node.(T?) -> Unit)?>(null)
 	var lazy by observable(false)
 
 	private var currentChildren = emptyList<Node>()
 	private val lazyChildren = hashMapOf<T?, List<Node>>()
 
-	override fun HTMLElement.render() {
+	override fun Node.render() {
 		style { textContent = """
 			|:host {
 			|	display: block;
@@ -40,21 +39,21 @@ abstract class SwitchElement<T> : CustomElement() {
 		subscribe(::lazy) { resetAndRender () }
 	}
 
-	private fun HTMLElement.resetAndRender() {
+	private fun Node.resetAndRender() {
 		currentChildren = emptyList()
 		lazyChildren.clear()
 		removeAllChildren()
 		doRender(value, cases)
 	}
 
-	private fun HTMLElement.removeAllChildren() {
+	private fun Node.removeAllChildren() {
 		// Do not remove first (<style>) child
 		while (firstChild != null && firstChild !== lastChild) {
 			removeChild(lastChild!!)
 		}
 	}
 
-	private fun HTMLElement.doRender(value: T?, cases: (HTMLElement.(T?) -> Unit)?) {
+	private fun Node.doRender(value: T?, cases: (Node.(T?) -> Unit)?) {
 		if (lazy) {
 			if (currentChildren.isNotEmpty()) {
 				currentChildren.forEach { (it as? Element)?.addClass(hiddenClass) }
@@ -80,7 +79,7 @@ abstract class SwitchElement<T> : CustomElement() {
 	}
 }
 
-fun <T> HTMLElement.switch(value: T? = null, lazy: Boolean = false, cases: HTMLElement.(T?) -> Unit): SwitchElement<T> {
+fun <T> Node.switch(value: T? = null, lazy: Boolean = false, cases: Node.(T?) -> Unit): SwitchElement<T> {
 	return createElement<SwitchElement<T>>(SwitchElement.tag, this, null).apply {
 		this.value = value
 		this.cases = cases
@@ -88,7 +87,7 @@ fun <T> HTMLElement.switch(value: T? = null, lazy: Boolean = false, cases: HTMLE
 	}
 }
 
-fun HTMLElement.switchIf(value: Boolean? = null, lazy: Boolean = false, action: HTMLElement.() -> Unit): SwitchElement<Boolean> {
+fun Node.switchIf(value: Boolean? = null, lazy: Boolean = false, action: Node.() -> Unit): SwitchElement<Boolean> {
 	return switch(value, lazy) {
 		if (it == true) {
 			action()

@@ -10,6 +10,6 @@ external interface IronResizableBehavior {
 
 	fun resizerShouldNotify(element: IronResizableBehavior): Boolean
 
-	fun stopResizeNotificationsFor(element: HTMLElement)
+	fun stopResizeNotificationsFor(target: Any)
 
 }

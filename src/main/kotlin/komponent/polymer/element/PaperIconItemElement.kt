@@ -2,7 +2,7 @@ package komponent.polymer.element
 
 import komponent.core.createElement
 import komponent.polymer.behavior.PaperItemBehavior
-import org.w3c.dom.HTMLElement
+import org.w3c.dom.Node
 
 abstract external class PaperIconItemElement : PolymerElement, PaperItemBehavior
 
@@ -15,4 +15,4 @@ var PaperIconItemElement.icon: String
 		}
 	}
 
-fun HTMLElement.paperIconItem(init: (PaperIconItemElement.() -> Unit)? = null) = createElement("paper-icon-item", this, init)
+fun Node.paperIconItem(init: (PaperIconItemElement.() -> Unit)? = null) = createElement("paper-icon-item", this, init)

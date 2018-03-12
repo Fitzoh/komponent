@@ -2,7 +2,7 @@ package komponent.polymer.element
 
 import komponent.core.Listener
 import komponent.core.createElement
-import org.w3c.dom.HTMLElement
+import org.w3c.dom.Node
 
 abstract external class AppDrawerElement : PolymerElement {
 
@@ -38,4 +38,4 @@ var AppDrawerElement.onOpenedChanged: Listener<Boolean>?
 	get() = throw UnsupportedOperationException("Can not get listener. Update the associated value to call it instead.")
 	set(value) = asPolymerElement().observableCallbackDelegate<Boolean>("opened").setValue(this, ::opened, value)
 
-fun HTMLElement.appDrawer(init: (AppDrawerElement.() -> Unit)? = null) = createElement("app-drawer", this, init)
+fun Node.appDrawer(init: (AppDrawerElement.() -> Unit)? = null) = createElement("app-drawer", this, init)

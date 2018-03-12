@@ -2,7 +2,7 @@ package komponent.polymer.element
 
 import komponent.core.createElement
 import komponent.polymer.behavior.PaperButtonBehavior
-import org.w3c.dom.HTMLElement
+import org.w3c.dom.Node
 
 abstract external class PaperButtonElement : PolymerElement, PaperButtonBehavior {
 
@@ -10,4 +10,4 @@ abstract external class PaperButtonElement : PolymerElement, PaperButtonBehavior
 
 }
 
-fun HTMLElement.paperButton(init: (PaperButtonElement.() -> Unit)? = null) = createElement("paper-button", this, init)
+fun Node.paperButton(init: (PaperButtonElement.() -> Unit)? = null) = createElement("paper-button", this, init)

@@ -4,7 +4,7 @@ import komponent.core.createElement
 import komponent.polymer.behavior.IronButtonState
 import komponent.polymer.behavior.IronControlState
 import komponent.polymer.behavior.PaperRippleBehavior
-import org.w3c.dom.HTMLElement
+import org.w3c.dom.Node
 
 abstract external class PaperIconButtonElement : PolymerElement, IronButtonState, IronControlState, PaperRippleBehavior {
 
@@ -16,4 +16,4 @@ abstract external class PaperIconButtonElement : PolymerElement, IronButtonState
 
 }
 
-fun HTMLElement.paperIconButton(init: (PaperIconButtonElement.() -> Unit)? = null) = createElement("paper-icon-button", this, init)
+fun Node.paperIconButton(init: (PaperIconButtonElement.() -> Unit)? = null) = createElement("paper-icon-button", this, init)

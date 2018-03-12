@@ -2,7 +2,8 @@ package komponent.polymer.element
 
 import komponent.core.createElement
 import komponent.polymer.behavior.AppScrollEffectsBehavior
-import org.w3c.dom.HTMLElement
+import org.w3c.dom.Element
+import org.w3c.dom.Node
 
 abstract external class AppHeaderElement : PolymerElement, AppScrollEffectsBehavior {
 
@@ -20,8 +21,8 @@ abstract external class AppHeaderElement : PolymerElement, AppScrollEffectsBehav
 
 }
 
-var AppHeaderElement.sticky: HTMLElement
+var AppHeaderElement.sticky: Element
 	get() = throw UnsupportedOperationException()
 	set(element) = element.setAttribute("sticky", "true")
 
-fun HTMLElement.appHeader(init: (AppHeaderElement.() -> Unit)? = null) = createElement("app-header", this, init)
+fun Node.appHeader(init: (AppHeaderElement.() -> Unit)? = null) = createElement("app-header", this, init)

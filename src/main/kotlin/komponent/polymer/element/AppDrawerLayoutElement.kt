@@ -2,7 +2,8 @@ package komponent.polymer.element
 
 import komponent.core.createElement
 import komponent.core.lazy
-import org.w3c.dom.HTMLElement
+import org.w3c.dom.Element
+import org.w3c.dom.Node
 
 abstract external class AppDrawerLayoutElement : PolymerElement {
 
@@ -21,9 +22,9 @@ fun AppDrawerLayoutElement.drawer(init: (AppDrawerElement.() -> Unit)? = null): 
 	it.setAttribute("slot", "drawer")
 	init?.invoke(it)
 }
-var AppDrawerLayoutElement.drawerToggle: HTMLElement
+var AppDrawerLayoutElement.drawerToggle: Element
 	get() = throw UnsupportedOperationException()
 	set(element) = element.setAttribute("drawer-toggle", "")
 
-fun HTMLElement.appDrawerLayout(init: (AppDrawerLayoutElement.() -> Unit)? = null) = createElement("app-drawer-layout", this, init)
+fun Node.appDrawerLayout(init: (AppDrawerLayoutElement.() -> Unit)? = null) = createElement("app-drawer-layout", this, init)
 

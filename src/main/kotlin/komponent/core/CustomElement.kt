@@ -1,6 +1,7 @@
 package komponent.core
 
 import org.w3c.dom.HTMLElement
+import org.w3c.dom.Node
 import org.w3c.dom.OPEN
 import org.w3c.dom.ShadowRootMode
 import kotlin.browser.window
@@ -36,9 +37,9 @@ abstract class CustomElement(private val renders: Boolean = true) : HTMLElement(
 	protected open fun connectedCallback() {
 		if (renders) {
 			val shadowRoot = shadowRoot!!
-			val rendering: (HTMLElement) -> Unit = { renderIn(it) }
+			val rendering: (Node) -> Unit = { renderIn(it) }
 			js("var forwarder = {};")
-			js("forwarder.insertBefore = function(node) { return shadowRoot.appendChild(node); }")
+			js("forwarder.appendChild = function(node) { return shadowRoot.appendChild(node); }")
 			js("forwarder.removeChild = function(child) { return shadowRoot.removeChild(child); }")
 			js("Object.defineProperty(forwarder, 'firstChild', { get: function() { return shadowRoot.firstChild; } });")
 			js("Object.defineProperty(forwarder, 'lastChild', { get: function() { return shadowRoot.lastChild; } });")
@@ -55,9 +56,9 @@ abstract class CustomElement(private val renders: Boolean = true) : HTMLElement(
 	protected open fun adoptedCallback() {
 	}
 
-	protected open fun HTMLElement.render() {}
+	protected open fun Node.render() {}
 
-	private fun renderIn(parent: HTMLElement) {
+	private fun renderIn(parent: Node) {
 		parent.render()
 	}
 

@@ -1,7 +1,7 @@
 package komponent.polymer.element
 
 import komponent.core.createElement
-import org.w3c.dom.HTMLElement
+import org.w3c.dom.Node
 
 abstract external class IronIconElement : PolymerElement {
 
@@ -13,4 +13,4 @@ abstract external class IronIconElement : PolymerElement {
 
 }
 
-fun HTMLElement.ironIcon(init: (IronIconElement.() -> Unit)? = null) = createElement("iron-icon", this, init)
+fun Node.ironIcon(init: (IronIconElement.() -> Unit)? = null) = createElement("iron-icon", this, init)

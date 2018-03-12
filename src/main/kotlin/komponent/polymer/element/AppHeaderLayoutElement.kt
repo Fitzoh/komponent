@@ -3,7 +3,7 @@ package komponent.polymer.element
 import komponent.core.createElement
 import komponent.core.lazy
 import komponent.polymer.behavior.AppLayoutBehavior
-import org.w3c.dom.HTMLElement
+import org.w3c.dom.Node
 
 abstract external class AppHeaderLayoutElement : PolymerElement, AppLayoutBehavior {
 
@@ -17,5 +17,5 @@ fun AppHeaderLayoutElement.header(init: (AppHeaderElement.() -> Unit)? = null): 
 	init?.invoke(it)
 }
 
-fun HTMLElement.appHeaderLayout(init: (AppHeaderLayoutElement.() -> Unit)? = null) = createElement("app-header-layout", this, init)
+fun Node.appHeaderLayout(init: (AppHeaderLayoutElement.() -> Unit)? = null) = createElement("app-header-layout", this, init)
 

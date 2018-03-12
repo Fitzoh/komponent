@@ -7,7 +7,7 @@ import komponent.core.div
 import komponent.core.h1
 import komponent.core.p
 import komponent.core.style
-import org.w3c.dom.HTMLElement
+import org.w3c.dom.Node
 
 abstract class DummyCard : CustomElement() {
 
@@ -22,7 +22,7 @@ abstract class DummyCard : CustomElement() {
 	var heading: String by observable("Heading")
 	var number: Int by observable(0)
 
-	override fun HTMLElement.render() {
+	override fun Node.render() {
 		style { textContent = """
 				|:host {
 				|	display: block;
@@ -61,4 +61,4 @@ abstract class DummyCard : CustomElement() {
 	}
 }
 
-fun HTMLElement.dummyCard(init: (DummyCard.() -> Unit)? = null) = createElement(DummyCard.tag, this, init)
+fun Node.dummyCard(init: (DummyCard.() -> Unit)? = null) = createElement(DummyCard.tag, this, init)

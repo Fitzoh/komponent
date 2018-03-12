@@ -1,6 +1,6 @@
 package komponent.core
 
-import org.w3c.dom.HTMLElement
+import org.w3c.dom.Node
 
 abstract class LoopElement<T> : CustomElement() {
 	companion object {
@@ -9,9 +9,9 @@ abstract class LoopElement<T> : CustomElement() {
 	}
 
 	var elements: Collection<T> by observable(emptyList())
-	var function by observable<(HTMLElement.(T) -> Unit)?>(null)
+	var function by observable<(Node.(T) -> Unit)?>(null)
 
-	override fun HTMLElement.render() {
+	override fun Node.render() {
 		style { textContent = """
 			|:host {
 			|	display: block;
@@ -23,7 +23,7 @@ abstract class LoopElement<T> : CustomElement() {
 		subscribe(::function) { doRender() }
 	}
 
-	private fun HTMLElement.doRender() {
+	private fun Node.doRender() {
 		// Do not remove first (<style>) child
 		while (firstChild != null && firstChild !== lastChild) {
 			removeChild(lastChild!!)
@@ -35,7 +35,7 @@ abstract class LoopElement<T> : CustomElement() {
 	}
 }
 
-fun <T> HTMLElement.loop(elements: Collection<T> = emptyList(), function: HTMLElement.(T) -> Unit): LoopElement<T> {
+fun <T> Node.loop(elements: Collection<T> = emptyList(), function: Node.(T) -> Unit): LoopElement<T> {
 	return createElement<LoopElement<T>>(LoopElement.tag, this, null).apply {
 		this.elements = elements
 		this.function = function

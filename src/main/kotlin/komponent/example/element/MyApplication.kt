@@ -27,7 +27,7 @@ import komponent.polymer.element.mainTitle
 import komponent.polymer.element.paperIconButton
 import komponent.polymer.element.paperIconItem
 import org.w3c.dom.HTMLDivElement
-import org.w3c.dom.HTMLElement
+import org.w3c.dom.Node
 
 data class Page(val icon: String,
 				val title: String,
@@ -43,7 +43,7 @@ abstract class MyApplication : CustomElement() {
 	private lateinit var drawerLayout: AppDrawerLayoutElement
 	private lateinit var tabSelector: IronSelectorElement<HTMLDivElement>
 
-	override fun HTMLElement.render() {
+	override fun Node.render() {
 		val pages = listOf(
 				Page(Icons.one, "First view", 1),
 				Page(Icons.two, "Second view", 2),
@@ -149,4 +149,4 @@ abstract class MyApplication : CustomElement() {
 	}
 }
 
-fun HTMLElement.myApp(init: (MyApplication.() -> Unit)? = null) = createElement(MyApplication.tag, this, init)
+fun Node.myApp(init: (MyApplication.() -> Unit)? = null) = createElement(MyApplication.tag, this, init)

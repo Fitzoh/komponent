@@ -4,7 +4,7 @@ import komponent.core.Listener
 import komponent.polymer.element.asPolymerElement
 import komponent.polymer.element.observableCallbackDelegate
 
-external interface IronMultiSelectableBehavior<out T> : IronSelectableBehavior<T> {
+external interface IronMultiSelectableBehavior<T> : IronSelectableBehavior<T> {
 
 	var multi: Boolean
 

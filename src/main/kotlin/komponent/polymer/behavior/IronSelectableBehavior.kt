@@ -3,9 +3,8 @@ package komponent.polymer.behavior
 import komponent.core.Listener
 import komponent.polymer.element.asPolymerElement
 import komponent.polymer.element.observableCallbackDelegate
-import org.w3c.dom.HTMLElement
 
-external interface IronSelectableBehavior<out T> {
+external interface IronSelectableBehavior<T> {
 
 	var activateEvent: String
 
@@ -27,7 +26,7 @@ external interface IronSelectableBehavior<out T> {
 
 	fun forceSynchronousItemUpdate()
 
-	fun indexOf(item: HTMLElement): Int
+	fun indexOf(item: T): Int
 
 	fun selectIndex(index: Int)
 

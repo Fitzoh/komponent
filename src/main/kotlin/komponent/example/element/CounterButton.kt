@@ -6,7 +6,7 @@ import komponent.core.defineElement
 import komponent.core.on
 import komponent.example.Styles
 import komponent.polymer.element.paperButton
-import org.w3c.dom.HTMLElement
+import org.w3c.dom.Node
 
 abstract class CounterButton : CustomElement() {
 	companion object {
@@ -17,7 +17,7 @@ abstract class CounterButton : CustomElement() {
 	private var count by observable(0)
 	var onCountChanged by observableCallback(::count)
 
-	override fun HTMLElement.render() {
+	override fun Node.render() {
 		paperButton {
 			Styles.accentBackground(this)
 
@@ -32,4 +32,4 @@ abstract class CounterButton : CustomElement() {
 	}
 }
 
-fun HTMLElement.counterButton(init: (CounterButton.() -> Unit)? = null) = createElement(CounterButton.tag, this, init)
+fun Node.counterButton(init: (CounterButton.() -> Unit)? = null) = createElement(CounterButton.tag, this, init)
