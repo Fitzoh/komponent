@@ -9,7 +9,7 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 import kotlin.reflect.KProperty0
 
-abstract class CustomElement(private val renders: Boolean = true) : HTMLElement() {
+abstract class CustomElement(private val createShadowRoot: Boolean = true) : HTMLElement() {
 
 	protected companion object {
 		inline fun <reified T : CustomElement> observedAttributes(vararg attributes: String) {
@@ -22,7 +22,7 @@ abstract class CustomElement(private val renders: Boolean = true) : HTMLElement(
 	private val delegatesMap = hashMapOf<String, ObservableDelegate<*>>()
 
 	init {
-		if (renders) {
+		if (createShadowRoot) {
 			attachShadow(ShadowRootInit(ShadowRootMode.OPEN))
 		}
 	}
@@ -35,17 +35,12 @@ abstract class CustomElement(private val renders: Boolean = true) : HTMLElement(
 
 	@JsName("connectedCallback")
 	protected open fun connectedCallback() {
-		if (renders) {
-			val shadowRoot = shadowRoot!!
-			val rendering: (Node) -> Unit = { renderIn(it) }
-			js("var forwarder = {};")
-			js("forwarder.appendChild = function(node) { return shadowRoot.appendChild(node); }")
-			js("forwarder.removeChild = function(child) { return shadowRoot.removeChild(child); }")
-			js("Object.defineProperty(forwarder, 'firstChild', { get: function() { return shadowRoot.firstChild; } });")
-			js("Object.defineProperty(forwarder, 'lastChild', { get: function() { return shadowRoot.lastChild; } });")
-			js("Object.defineProperty(forwarder, 'childNodes', { get: function() { return shadowRoot.childNodes; } });")
-			js("rendering(forwarder);")
+		val receiver: Node = if (createShadowRoot) {
+			shadowRoot!!
+		} else {
+			this
 		}
+		renderIn(receiver)
 	}
 
 	@JsName("disconnectedCallback")
@@ -58,8 +53,8 @@ abstract class CustomElement(private val renders: Boolean = true) : HTMLElement(
 
 	protected open fun Node.render() {}
 
-	private fun renderIn(parent: Node) {
-		parent.render()
+	private fun renderIn(receiver: Node) {
+		receiver.render()
 	}
 
 	private class ShadowRootInit(override var mode: ShadowRootMode?) : org.w3c.dom.ShadowRootInit
