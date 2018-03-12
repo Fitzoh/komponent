@@ -8,7 +8,6 @@ import org.w3c.dom.HTMLParagraphElement
 import org.w3c.dom.HTMLSlotElement
 import org.w3c.dom.HTMLSpanElement
 import org.w3c.dom.HTMLStyleElement
-import org.w3c.dom.Node
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.EventTarget
 import kotlin.browser.document
@@ -19,11 +18,9 @@ fun <T : HTMLElement> createElement(tag: String,
 									init: (T.() -> Unit)? = null): T {
 	val element: T = document.createElement(tag) as T
 	init?.let { element.init() }
-	parent?.insert(element)
+	parent?.appendChild(element)
 	return element
 }
-
-fun HTMLElement.insert(vararg nodes: Node) = nodes.forEach { this.insertBefore(it, null) }
 
 // TODO auto generate those
 fun HTMLElement.div(init: (HTMLDivElement.() -> Unit)) = createElement("div", this, init)
@@ -38,7 +35,7 @@ fun HTMLElement.h5(init: (HTMLHeadElement.() -> Unit)) = createElement("h5", thi
 fun HTMLElement.h6(init: (HTMLHeadElement.() -> Unit)) = createElement("h6", this, init)
 fun HTMLElement.style(init: (HTMLStyleElement.() -> Unit)? = null) = createElement("style", this, init)
 fun HTMLElement.slot(init: (HTMLSlotElement.() -> Unit)? = null) = createElement("slot", this, init)
-fun HTMLElement.text(text: String) = insert(document.createTextNode(text))
+fun HTMLElement.text(text: String) = appendChild(document.createTextNode(text))
 
 fun EventTarget.on(type: String, handler: (Event) -> Unit) = this.addEventListener(type, handler)
 
